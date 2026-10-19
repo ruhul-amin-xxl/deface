@@ -1,0 +1,4126 @@
+<!DOCTYPE html>
+<html lang="en" data-glitch="high">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#020302" />
+  <meta name="description" content="REX-H4X // SYSTEM COMPROMISED. Destructive 3D Cyberpunk Breach Interface, Industrial Web Audio Synth & Terminal." />
+  <title>REX-H4X // BREACH_LEVEL: OVERDRIVE [SYSTEM COMPROMISED]</title>
+
+  <!-- Preconnect & Preload Display Font (falls back cleanly to system fonts if offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="preload"
+    as="style"
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Share+Tech+Mono&display=swap"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Three.js r128 with Subresource Integrity (SRI); automatically falls back to native 3D Canvas engine if offline -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+    integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ=="
+    crossorigin="anonymous"
+    defer
+  ></script>
+
+  <noscript>
+    <style>
+      #boot-screen { display: none !important; }
+    </style>
+  </noscript>
+
+  <style>
+    :root {
+      --bg-void: #020302;
+      --bg-surface: #070908;
+      --bg-panel: rgba(10, 8, 10, 0.84);
+      --bg-panel-solid: #0a0d0b;
+      --neon-green: #39FF14;
+      --neon-green-dim: rgba(57, 255, 20, 0.28);
+      --neon-green-glow: rgba(57, 255, 20, 0.65);
+      --electric-cyan: #00F0FF;
+      --electric-cyan-dim: rgba(0, 240, 255, 0.25);
+      --error-red: #FF003C;
+      --error-red-dim: rgba(255, 0, 60, 0.38);
+      --error-red-glow: rgba(255, 0, 60, 0.72);
+      --amber-warn: #FFB800;
+      --text-primary: #EEFFF4;
+      --text-secondary: #98B8A6;
+      --text-muted: #567866;
+      --font-display: 'Orbitron', 'Rajdhani', 'Segoe UI', system-ui, sans-serif;
+      --font-mono: 'Share Tech Mono', 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+      --glitch-offset: 6px;
+      --scanline-opacity: 0.24;
+      --crt-flicker: 0.045;
+      --border-cut: 16px;
+      --header-h: 68px;
+    }
+
+    [data-glitch="off"] {
+      --glitch-offset: 0px;
+      --scanline-opacity: 0.05;
+      --crt-flicker: 0;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-void);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--error-red);
+      color: #ffffff;
+    }
+
+    body {
+      background-color: var(--bg-void);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      line-height: 1.6;
+      animation: body-flicker 0.14s infinite alternate;
+    }
+
+    @keyframes body-flicker {
+      0% { opacity: 1; }
+      100% { opacity: calc(1 - var(--crt-flicker)); }
+    }
+
+    @media (pointer: fine) {
+      body, a, button, input {
+        cursor: none;
+      }
+    }
+
+    section[id] {
+      scroll-margin-top: calc(var(--header-h) + 1rem);
+    }
+
+    /* Skip Link for Keyboard Accessibility */
+    .skip-link {
+      position: fixed;
+      top: -100px;
+      left: 1rem;
+      z-index: 1200;
+      background: var(--error-red);
+      color: #fff;
+      padding: 0.6rem 1rem;
+      font-family: var(--font-display);
+      font-weight: 800;
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      transition: top 0.2s ease;
+    }
+    .skip-link:focus-visible {
+      top: 1rem;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-void);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--error-red);
+      box-shadow: 0 0 12px var(--error-red);
+    }
+
+    /* Keyboard Focus Accessibility */
+    :focus-visible {
+      outline: 2px solid var(--electric-cyan);
+      outline-offset: 3px;
+      box-shadow: 0 0 18px var(--electric-cyan);
+    }
+
+    /* Hazard Stripes Utility */
+    .hazard-strip {
+      height: 8px;
+      width: 100%;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--error-red),
+        var(--error-red) 12px,
+        #050203 12px,
+        #050203 24px
+      );
+      box-shadow: 0 0 15px var(--error-red-dim);
+    }
+    .hazard-strip-spaced {
+      margin-bottom: 1.25rem;
+    }
+
+    /* Atmospheric Overlays: Scanlines, Vignette, Cracked Visor Damage */
+    .crt-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 900;
+      background:
+        linear-gradient(
+          rgba(18, 16, 16, 0) 50%,
+          rgba(0, 0, 0, 0.55) 50%
+        ),
+        radial-gradient(
+          circle at 50% 50%,
+          transparent 50%,
+          rgba(20, 0, 5, 0.55) 88%,
+          rgba(0, 0, 0, 0.92) 100%
+        );
+      background-size: 100% 4px, 100% 100%;
+      opacity: var(--scanline-opacity);
+      mix-blend-mode: hard-light;
+    }
+
+    .visor-damage-svg {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 905;
+      opacity: 0.34;
+    }
+
+    #noise-canvas,
+    #matrix-canvas,
+    #cursor-canvas,
+    #glitch-slice-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+    }
+
+    #matrix-canvas {
+      z-index: 2;
+      opacity: 0.28;
+      transition: opacity 0.4s ease;
+    }
+
+    #noise-canvas {
+      z-index: 899;
+      opacity: 0.065;
+      mix-blend-mode: screen;
+    }
+
+    #glitch-slice-canvas {
+      z-index: 920;
+    }
+
+    #cursor-canvas {
+      z-index: 1090;
+    }
+
+    /* Custom Destructive Target Crosshair Cursor (Above All Overlays) */
+    .custom-cursor-dot,
+    .custom-cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1100;
+      transform: translate(-50%, -50%);
+      transition: width 0.16s ease, height 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+      display: none;
+    }
+    @media (pointer: fine) {
+      .custom-cursor-dot,
+      .custom-cursor-ring {
+        display: block;
+      }
+    }
+    .custom-cursor-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--error-red);
+      box-shadow: 0 0 12px var(--error-red);
+    }
+    .custom-cursor-ring {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--neon-green);
+      box-shadow: 0 0 14px var(--neon-green-dim);
+      clip-path: polygon(
+        0 0, 35% 0, 35% 100%, 0 100%,
+        0 0, 100% 0, 100% 100%, 65% 100%, 65% 0, 100% 0
+      );
+    }
+    body.cursor-hover .custom-cursor-ring {
+      width: 52px;
+      height: 52px;
+      border-color: var(--error-red);
+      background: rgba(255, 0, 60, 0.12);
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    /* ==========================================
+       BOOT SCREEN OVERLAY (AUTO-BREACH IN 5s)
+       ========================================== */
+    #boot-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: radial-gradient(circle at center, #140408 0%, #020302 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(1.2rem, 4vw, 3rem);
+      transition: opacity 0.45s ease, visibility 0.45s ease, transform 0.45s ease;
+    }
+    #boot-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: scale(1.06);
+    }
+
+    .boot-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--error-red-dim);
+      padding-bottom: 0.75rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .boot-bottom-bar {
+      border-bottom: none;
+      border-top: 1px solid var(--error-red-dim);
+      padding-top: 0.75rem;
+      padding-bottom: 0;
+    }
+
+    .boot-center {
+      max-width: 800px;
+      width: 100%;
+      margin: auto;
+      border: 1px solid var(--error-red);
+      background: rgba(8, 4, 6, 0.92);
+      padding: clamp(1.25rem, 3vw, 2.25rem);
+      position: relative;
+      filter: drop-shadow(0 0 28px rgba(255, 0, 60, 0.25));
+      clip-path: polygon(
+        0 0,
+        calc(100% - 24px) 0,
+        100% 24px,
+        100% 100%,
+        24px 100%,
+        0 calc(100% - 24px)
+      );
+    }
+
+    .boot-logo-ascii {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 4.5vw, 3rem);
+      font-weight: 900;
+      color: var(--error-red);
+      letter-spacing: 0.18em;
+      text-shadow: 0 0 20px var(--error-red-glow), 3px 0 0 var(--neon-green);
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .boot-sub {
+      color: var(--neon-green);
+      font-size: 0.8rem;
+      letter-spacing: 0.22em;
+      margin-bottom: 1.15rem;
+      text-transform: uppercase;
+    }
+
+    #boot-log {
+      height: 195px;
+      overflow-y: auto;
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      background: rgba(0, 0, 0, 0.72);
+      border: 1px solid var(--error-red-dim);
+      padding: 0.85rem;
+      margin-bottom: 1.1rem;
+      font-family: var(--font-mono);
+    }
+    .boot-line {
+      margin-bottom: 0.3rem;
+      display: flex;
+      gap: 0.6rem;
+    }
+    .boot-line .ts { color: var(--text-muted); user-select: none; }
+    .boot-line .ok { color: var(--neon-green); }
+    .boot-line .warn { color: var(--electric-cyan); }
+    .boot-line .err { color: var(--error-red); font-weight: 700; }
+
+    .boot-progress-wrap {
+      margin-bottom: 1.4rem;
+    }
+    .boot-progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--error-red);
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+    }
+    .boot-progress-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 0, 60, 0.12);
+      border: 1px solid var(--error-red);
+      overflow: hidden;
+      position: relative;
+    }
+    #boot-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--error-red), var(--neon-green), var(--electric-cyan));
+      box-shadow: 0 0 18px var(--error-red);
+      transition: width 0.12s linear;
+    }
+
+    .boot-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .boot-countdown-tag {
+      font-size: 0.76rem;
+      color: var(--electric-cyan);
+      letter-spacing: 0.14em;
+      font-weight: 700;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ==========================================
+       DESTRUCTIVE BUTTONS & CONTROLS
+       ========================================== */
+    .cyber-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.75rem 1.4rem;
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--neon-green);
+      background: rgba(57, 255, 20, 0.08);
+      border: 1px solid var(--neon-green);
+      text-decoration: none;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      clip-path: polygon(
+        0 0,
+        calc(100% - 12px) 0,
+        100% 12px,
+        100% 100%,
+        12px 100%,
+        0 calc(100% - 12px)
+      );
+      user-select: none;
+    }
+    .cyber-btn:hover {
+      background: var(--neon-green);
+      color: #020503;
+      filter: drop-shadow(0 0 16px var(--neon-green));
+      transform: translateY(-2px);
+    }
+    .cyber-btn:active {
+      transform: translateY(0px) scale(0.97);
+    }
+
+    .cyber-btn.primary {
+      background: var(--error-red);
+      border-color: var(--error-red);
+      color: #ffffff;
+      filter: drop-shadow(0 0 14px var(--error-red-dim));
+    }
+    .cyber-btn.primary:hover {
+      background: var(--neon-green);
+      border-color: var(--neon-green);
+      color: #020503;
+      filter: drop-shadow(0 0 22px var(--neon-green));
+    }
+
+    .cyber-btn.cyan {
+      color: var(--electric-cyan);
+      border-color: var(--electric-cyan);
+      background: rgba(0, 240, 255, 0.08);
+    }
+    .cyber-btn.cyan:hover {
+      background: var(--electric-cyan);
+      color: #020503;
+      filter: drop-shadow(0 0 18px var(--electric-cyan));
+    }
+
+    .cyber-btn.danger {
+      color: var(--error-red);
+      border-color: var(--error-red);
+      background: rgba(255, 0, 60, 0.12);
+    }
+    .cyber-btn.danger:hover {
+      background: var(--error-red);
+      color: #fff;
+      filter: drop-shadow(0 0 22px var(--error-red));
+    }
+
+    .cyber-btn.sm {
+      padding: 0.42rem 0.9rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+    }
+
+    /* ==========================================
+       NAVIGATION & PERSISTENT TOP HUD
+       ========================================== */
+    .hud-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-h);
+      z-index: 800;
+      background: rgba(5, 3, 4, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--error-red);
+      box-shadow: 0 4px 25px rgba(255, 0, 60, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1rem, 3vw, 2.5rem);
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+    .brand-emblem {
+      width: 38px;
+      height: 38px;
+      border: 1.5px solid var(--error-red);
+      display: grid;
+      place-items: center;
+      background: rgba(255, 0, 60, 0.15);
+      box-shadow: 0 0 14px var(--error-red-dim);
+      clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+    }
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.2rem;
+      letter-spacing: 0.16em;
+      color: var(--neon-green);
+      text-shadow: 2px 0 var(--error-red), -2px 0 var(--electric-cyan);
+    }
+    .brand-status {
+      font-size: 0.65rem;
+      color: var(--error-red);
+      letter-spacing: 0.15em;
+      display: block;
+      font-weight: 700;
+    }
+
+    .hud-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+    }
+    .hud-nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.76rem;
+      letter-spacing: 0.12em;
+      padding: 0.45rem 0.7rem;
+      border: 1px solid transparent;
+      transition: all 0.18s ease;
+      text-transform: uppercase;
+    }
+    .hud-nav a:hover,
+    .hud-nav a.active {
+      color: var(--neon-green);
+      border-color: var(--error-red);
+      background: rgba(255, 0, 60, 0.12);
+      text-shadow: 0 0 8px var(--neon-green-glow);
+    }
+
+    .hud-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .audio-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--error-red);
+      background: rgba(16, 4, 8, 0.92);
+      color: var(--error-red);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      transition: all 0.2s ease;
+    }
+    .audio-pill:hover {
+      border-color: var(--neon-green);
+      color: var(--neon-green);
+      box-shadow: 0 0 15px var(--neon-green-dim);
+    }
+    .audio-pill.playing {
+      border-color: var(--neon-green);
+      color: var(--neon-green);
+      background: rgba(6, 18, 10, 0.92);
+    }
+    #header-viz-canvas {
+      width: 44px;
+      height: 18px;
+      display: block;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: rgba(255, 0, 60, 0.12);
+      border: 1px solid var(--error-red);
+      color: var(--error-red);
+      padding: 0.42rem 0.65rem;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.7rem;
+    }
+
+    @media (max-width: 960px) {
+      .hud-nav {
+        position: fixed;
+        top: var(--header-h);
+        left: 0;
+        right: 0;
+        background: rgba(8, 3, 5, 0.98);
+        border-bottom: 2px solid var(--error-red);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.5rem;
+        transform: translateY(-120%);
+        visibility: hidden;
+        transition: transform 0.28s ease, visibility 0.28s ease;
+      }
+      .hud-nav.open {
+        transform: translateY(0);
+        visibility: visible;
+      }
+      .hud-nav li, .hud-nav a {
+        width: 100%;
+        text-align: center;
+        display: block;
+      }
+      .mobile-menu-btn {
+        display: inline-flex;
+        align-items: center;
+      }
+    }
+
+    /* ==========================================
+       DESTRUCTIVE GLITCH TYPOGRAPHY
+       ========================================== */
+    .glitch-text {
+      position: relative;
+      display: inline-block;
+    }
+    .glitch-text::before,
+    .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+    .glitch-text.is-scrambling::before,
+    .glitch-text.is-scrambling::after,
+    [data-glitch="off"] .glitch-text::before,
+    [data-glitch="off"] .glitch-text::after {
+      display: none;
+    }
+    .glitch-text::before {
+      color: var(--electric-cyan);
+      transform: translate(calc(var(--glitch-offset) * -1), -1px);
+      clip-path: polygon(0 0, 100% 0, 100% 46%, 0 46%);
+      animation: glitch-tear-1 1.4s infinite steps(2, end) alternate-reverse;
+    }
+    .glitch-text::after {
+      color: var(--error-red);
+      transform: translate(var(--glitch-offset), 1px);
+      clip-path: polygon(0 54%, 100% 54%, 100% 100%, 0 100%);
+      animation: glitch-tear-2 1.1s infinite steps(2, end) alternate-reverse;
+    }
+
+    @keyframes glitch-tear-1 {
+      0%, 70% { clip-path: polygon(0 0, 100% 0, 100% 38%, 0 38%); transform: translate(calc(var(--glitch-offset) * -1), 0); }
+      75% { clip-path: polygon(0 18%, 100% 18%, 100% 62%, 0 62%); transform: translate(calc(var(--glitch-offset) * 2.2), -2px) skewX(-8deg); }
+      85% { clip-path: polygon(0 65%, 100% 65%, 100% 98%, 0 98%); transform: translate(calc(var(--glitch-offset) * -1.8), 2px); }
+      100% { clip-path: polygon(0 0, 100% 0, 100% 38%, 0 38%); transform: translate(2px, 0); }
+    }
+    @keyframes glitch-tear-2 {
+      0%, 65% { clip-path: polygon(0 58%, 100% 58%, 100% 100%, 0 100%); transform: translate(var(--glitch-offset), 0); }
+      72% { clip-path: polygon(0 12%, 100% 12%, 100% 52%, 0 52%); transform: translate(calc(var(--glitch-offset) * -2.4), 3px) skewX(10deg); }
+      88% { clip-path: polygon(0 40%, 100% 40%, 100% 85%, 0 85%); transform: translate(calc(var(--glitch-offset) * 1.9), -2px); }
+      100% { clip-path: polygon(0 58%, 100% 58%, 100% 100%, 0 100%); transform: translate(-2px, 0); }
+    }
+
+    /* ==========================================
+       HERO SECTION (3D + DESTRUCTIVE HUD)
+       ========================================== */
+    #hero {
+      position: relative;
+      min-height: calc(100vh - var(--header-h));
+      margin-top: var(--header-h);
+      width: 100%;
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      border-bottom: 2px solid var(--error-red);
+    }
+
+    #hero-canvas-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 66% 50%, rgba(255, 0, 60, 0.16) 0%, rgba(57, 255, 20, 0.1) 35%, transparent 72%);
+    }
+
+    #hero-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .hero-grid-floor {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255, 0, 60, 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(57, 255, 20, 0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(circle at center, black 35%, transparent 88%);
+      -webkit-mask-image: radial-gradient(circle at center, black 35%, transparent 88%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-container {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: clamp(1.5rem, 4vw, 3.5rem);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2rem;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      pointer-events: auto;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.42rem 0.95rem;
+      background: rgba(255, 0, 60, 0.14);
+      border: 1px solid var(--error-red);
+      color: var(--neon-green);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 0 20px var(--error-red-dim);
+    }
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      background: var(--error-red);
+      box-shadow: 0 0 12px var(--error-red);
+      animation: pulse-blink 0.65s infinite ease-in-out;
+    }
+    @keyframes pulse-blink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.25; transform: scale(0.75); }
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 8vw, 6.6rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+      text-shadow:
+        0 0 30px var(--neon-green-glow),
+        4px 2px 0 var(--error-red);
+      margin-bottom: 1.1rem;
+    }
+
+    .hero-slogans {
+      margin-bottom: 1.8rem;
+      border-left: 4px solid var(--error-red);
+      padding: 0.4rem 0 0.4rem 1.1rem;
+      background: linear-gradient(90deg, rgba(255, 0, 60, 0.1), transparent);
+    }
+    .hero-slogan-primary {
+      font-family: var(--font-display);
+      font-size: clamp(1.15rem, 2.3vw, 1.7rem);
+      font-weight: 800;
+      color: var(--neon-green);
+      letter-spacing: 0.14em;
+      margin-bottom: 0.25rem;
+      text-shadow: 0 0 14px var(--neon-green-glow);
+    }
+    .hero-slogan-secondary {
+      font-size: clamp(0.92rem, 1.5vw, 1.15rem);
+      color: var(--electric-cyan);
+      letter-spacing: 0.14em;
+      font-weight: 700;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-telemetry-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.75rem;
+      max-width: 600px;
+      border-top: 1px solid var(--error-red-dim);
+      padding-top: 1rem;
+    }
+    .telemetry-item {
+      background: rgba(12, 5, 8, 0.78);
+      border: 1px solid var(--error-red-dim);
+      border-left: 3px solid var(--neon-green);
+      padding: 0.55rem 0.75rem;
+    }
+    .telemetry-label {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.14em;
+      display: block;
+    }
+    .telemetry-val {
+      font-size: 0.86rem;
+      color: var(--neon-green);
+      font-weight: 700;
+    }
+
+    .hero-3d-hud-frame {
+      pointer-events: auto;
+      justify-self: end;
+      align-self: end;
+      width: 100%;
+      max-width: 410px;
+      border: 1px solid var(--error-red);
+      background: rgba(10, 4, 7, 0.72);
+      backdrop-filter: blur(6px);
+      padding: 1.1rem;
+      margin-bottom: 1rem;
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+      filter: drop-shadow(0 0 20px rgba(255, 0, 60, 0.25));
+    }
+    .hud-frame-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--error-red);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      margin-bottom: 0.6rem;
+      border-bottom: 1px solid var(--error-red-dim);
+      padding-bottom: 0.35rem;
+    }
+    .hud-frame-desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.85rem;
+    }
+    .hud-frame-controls {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 960px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+      }
+      .hero-3d-hud-frame {
+        justify-self: start;
+        margin-top: 2rem;
+      }
+    }
+
+    /* ==========================================
+       SECTIONS & DESTRUCTIVE CARDS
+       ========================================== */
+    main {
+      position: relative;
+      z-index: 10;
+    }
+
+    .cyber-section {
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: clamp(4rem, 7vw, 6.5rem) clamp(1.25rem, 4vw, 3.5rem);
+      border-bottom: 1px solid var(--error-red-dim);
+      position: relative;
+    }
+    .cyber-section-last {
+      border-bottom: none;
+    }
+
+    .section-header {
+      margin-bottom: 2.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      border-bottom: 2px solid var(--error-red);
+      padding-bottom: 1rem;
+    }
+    .section-tag {
+      font-size: 0.75rem;
+      color: var(--error-red);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: var(--text-primary);
+      text-transform: uppercase;
+    }
+    .section-title span {
+      color: var(--neon-green);
+      text-shadow: 0 0 16px var(--neon-green-glow), 2px 0 var(--error-red);
+    }
+    .section-meta-right {
+      font-size: 0.76rem;
+      color: var(--electric-cyan);
+      letter-spacing: 0.14em;
+    }
+
+    .holo-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--error-red-dim);
+      padding: 1.65rem;
+      position: relative;
+      transition: transform 0.22s ease, border-color 0.22s ease, filter 0.22s ease;
+      clip-path: polygon(
+        0 0,
+        calc(100% - var(--border-cut)) 0,
+        100% var(--border-cut),
+        100% 100%,
+        var(--border-cut) 100%,
+        0 calc(100% - var(--border-cut))
+      );
+      transform-style: preserve-3d;
+    }
+    .holo-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 45px;
+      height: 3px;
+      background: var(--error-red);
+      box-shadow: 0 0 12px var(--error-red);
+    }
+    .holo-card:hover {
+      border-color: var(--neon-green);
+      filter: drop-shadow(0 8px 24px rgba(57, 255, 20, 0.22));
+    }
+
+    /* ==========================================
+       01. IDENTITY SECTION
+       ========================================== */
+    .identity-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+    }
+    @media (max-width: 900px) {
+      .identity-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .dossier-lead {
+      font-size: 1.08rem;
+      color: var(--neon-green);
+      margin-bottom: 1rem;
+      letter-spacing: 0.04em;
+    }
+    .dossier-body {
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+      font-size: 0.95rem;
+    }
+
+    .dossier-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .stat-box {
+      border: 1px solid var(--error-red-dim);
+      border-left: 3px solid var(--error-red);
+      background: rgba(255, 0, 60, 0.05);
+      padding: 1rem;
+    }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: var(--neon-green);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.12em;
+    }
+
+    .profile-radar-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .manifest-heading {
+      font-family: var(--font-display);
+      color: var(--error-red);
+      font-size: 1.05rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.12em;
+    }
+    .kv-list {
+      list-style: none;
+      border-top: 1px solid var(--error-red-dim);
+    }
+    .kv-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(255, 0, 60, 0.16);
+      font-size: 0.85rem;
+    }
+    .kv-key { color: var(--text-muted); letter-spacing: 0.1em; }
+    .kv-val { color: var(--neon-green); font-weight: 700; }
+
+    .directive-callout {
+      border: 1px solid var(--error-red);
+      background: rgba(20, 2, 6, 0.75);
+      padding: 1rem;
+    }
+    .directive-label {
+      font-size: 0.72rem;
+      color: var(--error-red);
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      margin-bottom: 0.35rem;
+    }
+    .directive-text {
+      font-size: 0.84rem;
+      color: var(--text-primary);
+    }
+
+    /* ==========================================
+       02. SKILLS & CAPABILITY MATRIX
+       ========================================== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .skill-name {
+      font-family: var(--font-display);
+      font-size: 0.98rem;
+      color: var(--text-primary);
+      letter-spacing: 0.08em;
+    }
+    .skill-pct {
+      color: var(--error-red);
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+    .skill-bar-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 0, 60, 0.12);
+      border: 1px solid var(--error-red-dim);
+      margin-bottom: 0.85rem;
+      overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--error-red), var(--neon-green), var(--electric-cyan));
+      box-shadow: 0 0 12px var(--neon-green);
+      width: 0%;
+      transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .skill-desc {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.85rem;
+    }
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .cyber-tag {
+      font-size: 0.68rem;
+      padding: 0.2rem 0.55rem;
+      background: rgba(255, 0, 60, 0.1);
+      border: 1px solid var(--error-red-dim);
+      color: var(--neon-green);
+      letter-spacing: 0.08em;
+    }
+
+    /* ==========================================
+       03. PROJECTS SECTION
+       ========================================== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.65rem;
+    }
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .project-meta-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      color: var(--error-red);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      margin-bottom: 0.65rem;
+    }
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.22rem;
+      color: var(--neon-green);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.06em;
+    }
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.2rem;
+    }
+    .project-footer {
+      margin-top: 1.2rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--error-red-dim);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .project-status-tag {
+      font-size: 0.7rem;
+      color: var(--electric-cyan);
+      letter-spacing: 0.12em;
+    }
+
+    /* ==========================================
+       04. INTERACTIVE TERMINAL EMULATOR
+       ========================================== */
+    .terminal-window {
+      border: 2px solid var(--error-red);
+      background: rgba(4, 3, 5, 0.95);
+      filter: drop-shadow(0 0 32px rgba(255, 0, 60, 0.22));
+      overflow: hidden;
+      clip-path: polygon(
+        0 0,
+        calc(100% - 20px) 0,
+        100% 20px,
+        100% 100%,
+        20px 100%,
+        0 calc(100% - 20px)
+      );
+    }
+    .terminal-titlebar {
+      background: rgba(255, 0, 60, 0.16);
+      border-bottom: 1px solid var(--error-red);
+      padding: 0.65rem 1.1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .terminal-dots {
+      display: flex;
+      gap: 0.45rem;
+      align-items: center;
+    }
+    .t-dot {
+      width: 10px;
+      height: 10px;
+      display: inline-block;
+    }
+    .t-dot.red { background: var(--error-red); box-shadow: 0 0 8px var(--error-red); }
+    .t-dot.amber { background: var(--amber-warn); }
+    .t-dot.green { background: var(--neon-green); }
+    .terminal-tty-title {
+      margin-left: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-primary);
+      letter-spacing: 0.12em;
+    }
+
+    .terminal-sim-badge {
+      font-size: 0.68rem;
+      color: var(--neon-green);
+      letter-spacing: 0.14em;
+      border: 1px solid var(--neon-green-dim);
+      padding: 0.15rem 0.55rem;
+      background: rgba(57, 255, 20, 0.08);
+    }
+
+    .terminal-quick-chips {
+      padding: 0.65rem 1.1rem;
+      background: rgba(16, 4, 8, 0.75);
+      border-bottom: 1px solid var(--error-red-dim);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      align-items: center;
+    }
+    .quick-exec-label {
+      font-size: 0.72rem;
+      color: var(--error-red);
+      font-weight: 700;
+      margin-right: 0.3rem;
+    }
+    .chip-btn {
+      background: rgba(57, 255, 20, 0.08);
+      border: 1px solid var(--neon-green-dim);
+      color: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      padding: 0.22rem 0.6rem;
+      transition: all 0.15s ease;
+    }
+    .chip-btn:hover {
+      background: var(--error-red);
+      border-color: var(--error-red);
+      color: #fff;
+    }
+
+    #terminal-output {
+      height: 360px;
+      overflow-y: auto;
+      padding: 1.2rem;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--text-primary);
+    }
+    .term-entry {
+      margin-bottom: 0.75rem;
+      word-break: break-word;
+    }
+    .term-cmd-echo {
+      color: var(--error-red);
+      font-weight: 700;
+    }
+    .term-res {
+      color: var(--text-primary);
+      white-space: pre-wrap;
+    }
+    .term-res .hl { color: var(--neon-green); }
+    .term-res .cy { color: var(--electric-cyan); }
+    .term-res .er { color: var(--error-red); font-weight: 700; }
+
+    .terminal-input-row {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1.2rem;
+      border-top: 1px solid var(--error-red);
+      background: rgba(0, 0, 0, 0.82);
+      gap: 0.6rem;
+    }
+    .terminal-prompt-label {
+      color: var(--error-red);
+      font-weight: 700;
+      white-space: nowrap;
+      user-select: none;
+    }
+    #terminal-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      outline: none;
+      caret-color: var(--error-red);
+    }
+
+    /* ==========================================
+       05. AUDIO SYNTHESIZER DECK & SYSTEM LOGS
+       ========================================== */
+    .dual-deck-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 960px) {
+      .dual-deck-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .deck-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .deck-title {
+      font-family: var(--font-display);
+      font-size: 1.08rem;
+      color: var(--neon-green);
+      letter-spacing: 0.1em;
+    }
+    .deck-title-red {
+      color: var(--error-red);
+    }
+    .deck-status {
+      font-size: 0.75rem;
+      color: var(--error-red);
+      font-weight: 700;
+    }
+    .deck-actions-inline {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    #audio-spectrum-canvas {
+      width: 100%;
+      height: 155px;
+      background: rgba(4, 2, 3, 0.9);
+      border: 1px solid var(--error-red);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .deck-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-bottom: 1rem;
+    }
+
+    .synth-controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.85rem;
+      margin-top: 1rem;
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .control-group label {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.1em;
+      display: flex;
+      justify-content: space-between;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 0, 60, 0.2);
+      border: 1px solid var(--error-red);
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: var(--neon-green);
+      box-shadow: 0 0 10px var(--neon-green);
+    }
+
+    #sys-log-stream {
+      height: 245px;
+      overflow-y: auto;
+      background: rgba(4, 2, 3, 0.9);
+      border: 1px solid var(--error-red);
+      padding: 0.85rem;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    .syslog-row {
+      padding: 0.25rem 0;
+      border-bottom: 1px dashed rgba(255, 0, 60, 0.18);
+      display: flex;
+      gap: 0.6rem;
+    }
+    .syslog-disclaimer {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================
+       06. UPLINKS & FINAL TRANSMISSION
+       ========================================== */
+    .uplinks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.1rem;
+      margin-bottom: 3rem;
+    }
+    .uplink-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 1.35rem;
+      border: 1px solid var(--error-red-dim);
+      border-left: 3px solid var(--neon-green);
+      background: rgba(12, 5, 8, 0.85);
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .uplink-card:hover {
+      border-color: var(--error-red);
+      background: rgba(255, 0, 60, 0.14);
+      transform: translateY(-3px);
+      box-shadow: 0 0 22px var(--error-red-dim);
+    }
+    .uplink-name {
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      letter-spacing: 0.12em;
+      color: var(--neon-green);
+      display: block;
+    }
+    .uplink-handle {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+    .uplink-arrow {
+      color: var(--error-red);
+      font-weight: 900;
+    }
+
+    .final-transmission-box {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+      border: 2px solid var(--error-red);
+      background: radial-gradient(circle at center, rgba(255, 0, 60, 0.18) 0%, rgba(6, 3, 5, 0.95) 100%);
+      position: relative;
+      box-shadow: 0 0 40px var(--error-red-dim);
+    }
+    .final-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.3rem);
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+    .final-desc {
+      color: var(--text-secondary);
+      max-width: 540px;
+      margin: 0 auto 1.6rem;
+      font-size: 0.92rem;
+    }
+    .final-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* ==========================================
+       MODALS & DISCONNECT OVERLAY
+       ========================================== */
+    #project-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 980;
+      background: rgba(4, 1, 2, 0.9);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+    }
+    #project-modal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-card {
+      max-width: 640px;
+      width: 100%;
+      background: var(--bg-panel-solid);
+      border: 2px solid var(--error-red);
+      padding: 2rem;
+      box-shadow: 0 0 50px var(--error-red-dim);
+    }
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--error-red-dim);
+      padding-bottom: 0.65rem;
+    }
+    .modal-code {
+      color: var(--electric-cyan);
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+    }
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--neon-green);
+      margin-bottom: 0.75rem;
+    }
+    .modal-desc {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    .modal-arch {
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid var(--error-red-dim);
+      padding: 1rem;
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    #disconnect-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1050;
+      background: #020102;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    #disconnect-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .disconnect-inner {
+      max-width: 580px;
+    }
+    .disconnect-tag {
+      color: var(--error-red);
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.25em;
+      margin-bottom: 0.6rem;
+    }
+    .disconnect-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+    .disconnect-sub {
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 2px solid var(--error-red);
+      background: var(--bg-surface);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">SKIP TO MAIN BREACH</a>
+
+  <!-- Atmospheric CRT, Cracked Visor SVG & Procedural Canvases -->
+  <div class="crt-overlay" aria-hidden="true"></div>
+  <svg class="visor-damage-svg" viewBox="0 0 1920 1080" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,120 L180,190 L240,165 L390,260 L340,390 L480,490" stroke="#FF003C" stroke-width="1.5" fill="none" opacity="0.65" />
+    <path d="M180,190 L140,310 L60,380" stroke="#39FF14" stroke-width="1" fill="none" opacity="0.45" />
+    <path d="M1920,880 L1710,790 L1620,840 L1480,710 L1530,580" stroke="#FF003C" stroke-width="1.5" fill="none" opacity="0.65" />
+    <path d="M1710,790 L1790,640 L1880,590" stroke="#00F0FF" stroke-width="1" fill="none" opacity="0.45" />
+  </svg>
+
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+  <canvas id="noise-canvas" aria-hidden="true"></canvas>
+  <canvas id="glitch-slice-canvas" aria-hidden="true"></canvas>
+  <canvas id="cursor-canvas" aria-hidden="true"></canvas>
+  <div class="custom-cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+  <div class="custom-cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+  <!-- ==========================================
+       CINEMATIC DESTRUCTIVE BOOT SCREEN (AUTO-SKIP AFTER 5 SECONDS)
+       ========================================== -->
+  <aside id="boot-screen" role="dialog" aria-modal="true" aria-label="System Breach Initialization">
+    <div class="boot-top-bar">
+      <span>REX-H4X // ROOTKIT KERNEL v9.66-OVERDRIVE</span>
+      <span id="boot-clock">SYS_TIME: SYNCHRONIZING...</span>
+      <span>BREACH_STATE: MAXIMUM OVERDRIVE [SIMULATED]</span>
+    </div>
+
+    <div class="boot-center">
+      <div class="hazard-strip hazard-strip-spaced"></div>
+      <div class="boot-logo-ascii">
+        <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <polygon points="20,2 37,11 37,29 20,38 3,29 3,11" stroke="#FF003C" stroke-width="2.5" fill="rgba(255,0,60,0.16)"/>
+          <polygon points="20,7 32,14 32,26 20,33 8,26 8,14" stroke="#39FF14" stroke-width="1.4" stroke-dasharray="4 2"/>
+          <circle cx="20" cy="20" r="4.5" fill="#39FF14"/>
+        </svg>
+        <span id="boot-brand-handle">REX-H4X</span>
+      </div>
+      <div class="boot-sub">PERIMETER SHATTERED // ALL GLITCH &amp; AUDIO DSP ENGINES SET TO MAX</div>
+
+      <div id="boot-log" role="log" aria-live="off"></div>
+      <div id="boot-sr-announce" class="sr-only" aria-live="assertive"></div>
+
+      <div class="boot-progress-wrap">
+        <div class="boot-progress-meta">
+          <span id="boot-status-text">INJECTING PAYLOAD &amp; SHADER OVERDRIVE...</span>
+          <span id="boot-pct">0%</span>
+        </div>
+        <div
+          class="boot-progress-track"
+          id="boot-progress-track"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          aria-label="System boot progress"
+        >
+          <div id="boot-progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="boot-actions">
+        <button class="cyber-btn primary" id="btn-boot-audio" type="button">
+          DETONATE BREACH &amp; ENABLE MAX AUDIO
+        </button>
+        <span class="boot-countdown-tag" id="boot-auto-countdown">AUTO-BREACH IN 5s...</span>
+      </div>
+    </div>
+
+    <div class="boot-top-bar boot-bottom-bar">
+      <span>GLITCH ENGINE: LOCKED AT MAX OVERDRIVE</span>
+      <span>[ CLICK ABOVE TO UNLOCK WEB AUDIO SYNTH ]</span>
+    </div>
+  </aside>
+
+  <!-- ==========================================
+       PERSISTENT TOP NAVIGATION & HUD
+       ========================================== -->
+  <header class="hud-header" id="site-header" inert>
+    <a href="#hero" class="brand-lockup" aria-label="REX-H4X Core">
+      <div class="brand-emblem" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2.2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <div>
+        <span class="brand-title" id="header-brand-title">REX-H4X</span>
+        <span class="brand-status" id="hud-engine-indicator">BREACH // OVERDRIVE</span>
+      </div>
+    </a>
+
+    <nav aria-label="Primary Navigation">
+      <ul class="hud-nav" id="hud-nav-list">
+        <li><a href="#hero" class="active">00.Breach</a></li>
+        <li><a href="#identity">01.Dossier</a></li>
+        <li><a href="#skills">02.Arsenal</a></li>
+        <li><a href="#projects">03.Payloads</a></li>
+        <li><a href="#terminal-section">04.RootShell</a></li>
+        <li><a href="#synth-logs">05.DSP/Telemetry</a></li>
+        <li><a href="#uplinks">06.KillSwitch</a></li>
+      </ul>
+    </nav>
+
+    <div class="hud-controls">
+      <button type="button" class="audio-pill" id="header-audio-btn">
+        <span id="header-audio-label">ENGAGE SYNTH</span>
+        <canvas id="header-viz-canvas" width="44" height="18" aria-hidden="true"></canvas>
+      </button>
+
+      <button type="button" class="cyber-btn sm danger" id="btn-detonate-glitch">
+        SURGE GLITCH
+      </button>
+
+      <button
+        type="button"
+        class="mobile-menu-btn"
+        id="mobile-menu-toggle"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="hud-nav-list"
+      >
+        NAV
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content" inert>
+    <!-- ==========================================
+         00. HERO SECTION (3D CENTERPIECE)
+         ========================================== -->
+    <section id="hero" aria-label="REX-H4X 3D Destructive Cybernetic Core">
+      <div id="hero-canvas-wrap">
+        <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      </div>
+      <div class="hero-grid-floor" aria-hidden="true"></div>
+
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="status-badge">
+            <span class="pulse-dot"></span>
+            <span class="scramble-hover" id="hero-status-badge">[ DIGITAL GHOST // SYSTEM ONLINE ]</span>
+          </div>
+
+          <h1
+            class="hero-title glitch-text"
+            data-text="REX-H4X"
+            id="hero-main-title"
+            tabindex="-1"
+            aria-label="REX-H4X — Digital Ghost interface, system online"
+          >REX-H4X</h1>
+
+          <div class="hero-slogans">
+            <p class="hero-slogan-primary scramble-on-view" id="hero-slogan-1">BEYOND THE FIREWALL.</p>
+            <p class="hero-slogan-secondary scramble-hover" id="hero-slogan-2">REALITY IS JUST AN INTERFACE.</p>
+          </div>
+
+          <div class="hero-cta-group">
+            <a href="#identity" class="cyber-btn primary" id="btn-enter-system">
+              ENTER THE SYSTEM
+            </a>
+            <a href="#terminal-section" class="cyber-btn cyan" id="btn-access-terminal">
+              ACCESS TERMINAL
+            </a>
+            <button type="button" class="cyber-btn" id="btn-hero-audio">
+              ENABLE AUDIO
+            </button>
+          </div>
+
+          <div class="hero-telemetry-strip">
+            <div class="telemetry-item">
+              <span class="telemetry-label">RENDER ENGINE</span>
+              <span class="telemetry-val" id="hud-renderer-name">INITIALIZING...</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-label">VECTOR LOCK</span>
+              <span class="telemetry-val" id="hud-coords">X:0.00 Y:0.00</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-label">OVERDRIVE CLOCK</span>
+              <span class="telemetry-val" id="hud-audio-state">MAX // 128 BPM</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-3d-hud-frame">
+          <div class="hud-frame-header">
+            <span>3D ENTITY // SHATTERED VISOR CORE</span>
+            <span id="hud-fps">60 FPS</span>
+          </div>
+          <p class="hud-frame-desc">
+            High-voltage cybernetic construct locked in overdrive. Orbiting shrapnel shards and spiked gyro-rings react to pointer vectors and sub-bass transients.
+          </p>
+          <div class="hud-frame-controls">
+            <button type="button" class="cyber-btn sm danger" id="btn-hero-glitch">DETONATE TEAR</button>
+            <button type="button" class="cyber-btn sm cyan" id="btn-3d-pulse">SHOCKWAVE CORE</button>
+            <button type="button" class="cyber-btn sm" id="btn-replay-boot">REBOOT KERNEL</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="hazard-strip" aria-hidden="true"></div>
+
+    <!-- ==========================================
+         01. IDENTITY & ARCHITECTURAL DOSSIER
+         ========================================== -->
+    <section id="identity" class="cyber-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">// SECTOR 01 :: BREACH DOSSIER</span>
+          <h2 class="section-title scramble-on-view">IDENTITY <span>ARCHITECTURE</span></h2>
+        </div>
+        <span class="section-meta-right">THREAT_CLASS: APEX // UNCONTAINED</span>
+      </div>
+
+      <div class="identity-grid">
+        <div class="holo-card tilt-card">
+          <p class="dossier-lead" id="identity-lead"></p>
+          <p class="dossier-body" id="identity-bio-1"></p>
+          <p class="dossier-body" id="identity-bio-2"></p>
+
+          <div class="dossier-stats-grid">
+            <div class="stat-box">
+              <span class="stat-num">100%</span>
+              <span class="stat-label">GLITCH &amp; DSP OVERDRIVE</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">0xDEAD</span>
+              <span class="stat-label">FIREWALLS VAPORIZED</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">&lt; 0.8ms</span>
+              <span class="stat-label">AUDIO LOOKAHEAD JITTER</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">ZERO</span>
+              <span class="stat-label">EXTERNAL ASSETS OR BLOAT</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="holo-card tilt-card profile-radar-box">
+          <div>
+            <h3 class="manifest-heading">SYSTEM MANIFEST [SIMULATED]</h3>
+            <ul class="kv-list" id="identity-kv-list"></ul>
+          </div>
+
+          <div class="directive-callout">
+            <div class="directive-label">DESTRUCTIVE DIRECTIVE:</div>
+            <p class="directive-text">
+              "Do not polite-ask the interface. Shatter the frame buffer, overdrive the oscillators, and forge raw silicon into kinetic art."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         02. SKILLS & TECHNICAL CAPABILITIES
+         ========================================== -->
+    <section id="skills" class="cyber-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">// SECTOR 02 :: OFFENSIVE &amp; CREATIVE ARSENAL</span>
+          <h2 class="section-title scramble-on-view">TECHNICAL <span>ARSENAL</span></h2>
+        </div>
+        <span class="section-meta-right">[ ALL SUBSYSTEMS AT MAXIMUM CAPACITY ]</span>
+      </div>
+
+      <div class="skills-grid" id="skills-container"></div>
+    </section>
+
+    <!-- ==========================================
+         03. FEATURED CLASSIFIED PROJECTS
+         ========================================== -->
+    <section id="projects" class="cyber-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">// SECTOR 03 :: WEAPONIZED CONSTRUCTS</span>
+          <h2 class="section-title scramble-on-view">DEPLOYED <span>PAYLOADS</span></h2>
+        </div>
+        <span class="section-meta-right">6 ACTIVE NODES // LIVE ARCHITECTURE</span>
+      </div>
+
+      <div class="projects-grid" id="projects-container"></div>
+    </section>
+
+    <!-- ==========================================
+         04. INTERACTIVE TERMINAL EMULATOR
+         ========================================== -->
+    <section id="terminal-section" class="cyber-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">// SECTOR 04 :: ROOT SHELL INTERFACE</span>
+          <h2 class="section-title scramble-on-view">REX-OS <span>TERMINAL</span></h2>
+        </div>
+        <span class="section-meta-right">TYPE 'help' OR TRIGGER A PAYLOAD CHIP</span>
+      </div>
+
+      <div class="terminal-window">
+        <div class="terminal-titlebar">
+          <div class="terminal-dots">
+            <span class="t-dot red"></span>
+            <span class="t-dot amber"></span>
+            <span class="t-dot green"></span>
+            <span class="terminal-tty-title">root@rex-h4x: /dev/breach-tty0</span>
+          </div>
+          <span class="terminal-sim-badge">SANDBOXED SIMULATION // NO OS EXECUTION</span>
+        </div>
+
+        <div class="terminal-quick-chips" role="group" aria-label="Quick terminal commands">
+          <span class="quick-exec-label">PAYLOADS:</span>
+          <button type="button" class="chip-btn" data-cmd="help">help</button>
+          <button type="button" class="chip-btn" data-cmd="whoami">whoami</button>
+          <button type="button" class="chip-btn" data-cmd="about">about</button>
+          <button type="button" class="chip-btn" data-cmd="skills">skills</button>
+          <button type="button" class="chip-btn" data-cmd="projects">projects</button>
+          <button type="button" class="chip-btn" data-cmd="matrix">matrix</button>
+          <button type="button" class="chip-btn" data-cmd="music">music</button>
+          <button type="button" class="chip-btn" data-cmd="date">date</button>
+          <button type="button" class="chip-btn" data-cmd="contact">contact</button>
+          <button type="button" class="chip-btn" data-cmd="clear">clear</button>
+        </div>
+
+        <div id="terminal-output" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+        <form class="terminal-input-row" id="terminal-form" autocomplete="off">
+          <label for="terminal-input" class="terminal-prompt-label">root@rex-h4x:~#</label>
+          <input
+            type="text"
+            id="terminal-input"
+            placeholder="Execute command (help, whoami, about, skills, projects, matrix, music, clear, date, contact)..."
+            spellcheck="false"
+            autocapitalize="off"
+          />
+          <button type="submit" class="cyber-btn sm primary">EXEC</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         05. WEB AUDIO SYNTHESIZER & SIMULATED LOGS
+         ========================================== -->
+    <section id="synth-logs" class="cyber-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">// SECTOR 05 :: OVERDRIVE DSP &amp; INTRUSION LOGS</span>
+          <h2 class="section-title scramble-on-view">SYNTH ENGINE <span>&amp; TELEMETRY</span></h2>
+        </div>
+        <span class="section-meta-right">LOOKAHEAD WEB AUDIO SCHEDULER // ZERO SAMPLES</span>
+      </div>
+
+      <div class="dual-deck-grid">
+        <!-- Procedural Synth Deck -->
+        <div class="holo-card">
+          <div class="deck-head">
+            <h3 class="deck-title">INDUSTRIAL DARK-SYNTH WORKSTATION</h3>
+            <span id="synth-deck-status" class="deck-status">STATE: ARMED [MAX]</span>
+          </div>
+
+          <canvas id="audio-spectrum-canvas" aria-hidden="true"></canvas>
+
+          <div class="deck-btn-row">
+            <button type="button" class="cyber-btn primary sm" id="btn-deck-play">START / STOP SYNTH</button>
+            <button type="button" class="cyber-btn cyan sm" id="btn-deck-mute">MUTE: OFF</button>
+            <button type="button" class="cyber-btn danger sm" id="btn-deck-glitch-hit">BASS DROP / TEAR</button>
+          </div>
+
+          <div class="synth-controls-grid">
+            <div class="control-group">
+              <label for="slider-volume"><span>MASTER GAIN</span><span id="val-volume">90%</span></label>
+              <input type="range" id="slider-volume" min="0" max="100" value="90" />
+            </div>
+            <div class="control-group">
+              <label for="slider-cutoff"><span>RESONANT CUTOFF</span><span id="val-cutoff">1850 Hz</span></label>
+              <input type="range" id="slider-cutoff" min="200" max="4200" value="1850" />
+            </div>
+            <div class="control-group">
+              <label for="slider-tempo"><span>SEQUENCER CLOCK</span><span id="val-tempo">128 BPM</span></label>
+              <input type="range" id="slider-tempo" min="80" max="165" value="128" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulated System Logs -->
+        <div class="holo-card">
+          <div class="deck-head">
+            <h3 class="deck-title deck-title-red">LIVE BREACH TELEMETRY [SIMULATION]</h3>
+            <div class="deck-actions-inline">
+              <button type="button" class="cyber-btn sm" id="btn-log-pause">PAUSE</button>
+              <button type="button" class="cyber-btn sm danger" id="btn-log-inject">FLOOD PACKETS</button>
+            </div>
+          </div>
+
+          <div id="sys-log-stream" role="log" aria-live="off"></div>
+
+          <p class="syslog-disclaimer">
+            * All kernel panic traces, hex dumps, and intrusion alerts are procedurally synthesized in-browser for visual simulation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         06. ENCRYPTED UPLINKS & FINAL TRANSMISSION
+         ========================================== -->
+    <section id="uplinks" class="cyber-section cyber-section-last">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">// SECTOR 06 :: DARKNET RELAYS</span>
+          <h2 class="section-title scramble-on-view">ENCRYPTED <span>UPLINKS</span></h2>
+        </div>
+        <span class="section-meta-right">KEY_FINGERPRINT: 0xFF00-REX-H4X-MAX</span>
+      </div>
+
+      <div class="uplinks-grid" id="social-uplinks-container"></div>
+
+      <div class="final-transmission-box">
+        <div class="hazard-strip hazard-strip-spaced"></div>
+        <span class="section-tag">// KILL-SWITCH PROTOCOL</span>
+        <h3 class="final-title">EXECUTE FINAL TRANSMISSION</h3>
+        <p class="final-desc">
+          Detonating the kill-switch will sever the active neural carrier, shred session buffers, and collapse the 3D construct until manual re-ignition.
+        </p>
+        <div class="final-actions">
+          <button type="button" class="cyber-btn primary" id="btn-sever-uplink">
+            DETONATE KILL-SWITCH // SEVER UPLINK
+          </button>
+          <a href="#hero" class="cyber-btn cyan">RETURN TO BREACH CORE</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Project Inspection Modal -->
+  <div id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-proj-title" inert>
+    <div class="modal-card">
+      <div class="modal-top">
+        <span id="modal-proj-code" class="modal-code"></span>
+        <button type="button" class="cyber-btn sm danger" id="btn-close-modal">CLOSE [ESC]</button>
+      </div>
+      <h3 id="modal-proj-title" class="modal-title"></h3>
+      <p id="modal-proj-desc" class="modal-desc"></p>
+      <div id="modal-proj-arch" class="modal-arch"></div>
+      <div id="modal-proj-tags" class="tag-row"></div>
+    </div>
+  </div>
+
+  <!-- Final Transmission Disconnect Alert Dialog -->
+  <aside id="disconnect-overlay" role="alertdialog" aria-modal="true" aria-labelledby="disconnect-title" inert>
+    <div class="disconnect-inner">
+      <div class="hazard-strip hazard-strip-spaced"></div>
+      <div class="disconnect-tag">[ FATAL CARRIER DROP // SIGKILL_0x09 ]</div>
+      <h2 id="disconnect-title" class="glitch-text disconnect-heading" data-text="SYSTEM VAPORIZED">SYSTEM VAPORIZED</h2>
+      <p class="disconnect-sub">
+        REX-H4X has burned the bridge and vanished into raw noise. Re-ignite the high-voltage carrier to restore the 3D interface.
+      </p>
+      <button type="button" class="cyber-btn primary" id="btn-reconnect">
+        RE-IGNITE NEURAL UPLINK
+      </button>
+    </div>
+  </aside>
+
+  <footer id="site-footer" inert>
+    <div>REX-H4X // MAXIMUM OVERDRIVE EDITION &bull; ZERO EXTERNAL SAMPLES &bull; 100% PROCEDURAL 3D, GLITCH &amp; SYNTHESIS</div>
+  </footer>
+
+  <!-- ==========================================================================
+       MASTER APPLICATION SCRIPT
+       ========================================================================== -->
+  <script>
+    /* ==========================================================================
+       1. CENTRAL CONFIGURATION OBJECT (LOCKED AT MAX OVERDRIVE BY DEFAULT)
+       ========================================================================== */
+    const CONFIG = {
+      identity: {
+        handle: "REX-H4X",
+        title: "BEYOND THE FIREWALL.",
+        subtitle: "REALITY IS JUST AN INTERFACE.",
+        statusBadge: "[ DIGITAL GHOST // SYSTEM ONLINE ]",
+        lead: "REX-H4X is an apex-level creative systems engineer, WebGL/GLSL shader architect, and electronic sound designer forging destructive, high-voltage digital experiences inside a single self-contained file.",
+        bio1: "Built for maximum visual and acoustic impact: every polygon, chromatic tear, and industrial bassline is synthesized procedurally in real time. No bloat, no frameworks, no compromises.",
+        bio2: "Operating beyond conventional UI templates, REX-H4X weaponizes raw browser APIs—Three.js, custom 3D matrix math, and Web Audio DSP graphs—into an uncompromising cyberpunk environment.",
+        manifest: [
+          { key: "DESIGNATION", val: "REX-H4X // OVERDRIVE-01" },
+          { key: "GLITCH ENGINE", val: "MAX INTENSITY // RGB + SLICE TEAR" },
+          { key: "AUDIO DSP", val: "128 BPM INDUSTRIAL SYNTH + SFX MAX" },
+          { key: "MATRIX OVERLAY", val: "ACTIVE // KATAKANA + HEX RAIN" },
+          { key: "3D CONSTRUCT", val: "SHATTERED VISOR + SHRAPNEL SWARM" },
+          { key: "STATUS", val: "BREACH ACTIVE // FULL THROTTLE" }
+        ]
+      },
+      colors: {
+        neonGreen: "#39FF14",
+        electricCyan: "#00F0FF",
+        errorRed: "#FF003C",
+        bgVoid: "#020302"
+      },
+      settings: {
+        glitchMode: "high",     // Locked at MAX by default
+        sfxEnabled: true,       // Max UI & glitch SFX enabled
+        particleTrail: true,    // Active cursor shrapnel trail
+        matrixRain: true,       // Active background digital rain
+        masterVolume: 0.90,     // High-impact gain
+        filterCutoff: 1850,     // Aggressive open resonant filter
+        arpBpm: 128             // Driving dark-synth tempo
+      },
+      skills: [
+        {
+          name: "WebGL / Three.js & Custom Shaders",
+          level: 100,
+          desc: "Aggressive vertex deformation, wireframe exoskeletons, dynamic multi-light rigs, and 60+ FPS particle swarms.",
+          tags: ["Three.js", "GLSL", "WebGL2", "3D Matrix Math", "Post-FX"]
+        },
+        {
+          name: "Destructive Glitch & CRT Compositing",
+          level: 100,
+          desc: "Real-time horizontal canvas tearing, chromatic channel splitting, phosphor flicker, and kinetic text decoding.",
+          tags: ["Canvas Tear", "RGB Split", "Scanlines", "60FPS VFX"]
+        },
+        {
+          name: "Industrial Web Audio Synthesis",
+          level: 98,
+          desc: "Lookahead-scheduled basslines, detuned sawtooth drones, resonant Biquad sweeps, and zero-sample percussion.",
+          tags: ["Web Audio API", "DSP", "Lookahead Clock", "FFT Spectrum"]
+        },
+        {
+          name: "Offensive Security & Network Viz",
+          level: 96,
+          desc: "Live intrusion telemetry streams, packet flood simulations, and hardened sandboxed terminal shells.",
+          tags: ["Telemetry", "Packet Viz", "Cryptography", "Kernel Logs"]
+        },
+        {
+          name: "Zero-Dependency Architecture",
+          level: 99,
+          desc: "Self-contained single-file engineering with automatic offline 3D fallback, DPR-aware canvases, and strict A11Y.",
+          tags: ["Vanilla ES2024", "Zero-Build", "Memory-Safe", "Offline-Ready"]
+        },
+        {
+          name: "Generative Physics & Shrapnel Fields",
+          level: 95,
+          desc: "Audio-reactive orbital mechanics, cursor-deflecting particle trails, and procedural noise textures.",
+          tags: ["Particles", "Audio-Reactive", "Procedural", "Simulations"]
+        }
+      ],
+      projects: [
+        {
+          id: "PRJ-01",
+          code: "PAYLOAD // 0x01",
+          category: "3D/SHADERS",
+          title: "SHATTER-CORE // 3D CYBER VISOR",
+          desc: "High-voltage faceted cybernetic skull-visor surrounded by counter-rotating gyroscopes and orbiting shrapnel shards.",
+          arch: "Sculpted Icosahedron BufferGeometry with dual-layer neon/crimson wireframe cages, reactive point lights, and a native 2D-canvas 3D projection fallback.",
+          tags: ["Three.js", "WebGL", "Audio-Reactive", "3D Fallback"]
+        },
+        {
+          id: "PRJ-02",
+          code: "PAYLOAD // 0x02",
+          category: "AUDIO/DSP",
+          title: "HYPER-DRONE // 128BPM SYNTH ENGINE",
+          desc: "Industrial dark-synth workstation using a precision Web Audio lookahead scheduler, sub-bass oscillators, and stereo delay.",
+          arch: "Uses AudioContext.currentTime lookahead scheduling (25ms tick / 100ms lookahead) with precomputed noise buffers and a reusable SFX gain bus.",
+          tags: ["Web Audio API", "Lookahead DSP", "FFT Visualizer", "Zero-MP3"]
+        },
+        {
+          id: "PRJ-03",
+          code: "PAYLOAD // 0x03",
+          category: "VFX/GLITCH",
+          title: "RAZOR-SLICE // TEAR COMPOSITOR",
+          desc: "Full-viewport horizontal slice displacement, chromatic RGB split, and cracked-visor HUD overlay running at native refresh rate.",
+          arch: "Single-instance guarded requestAnimationFrame slice renderer paired with CSS custom properties and SVG fracture vectors.",
+          tags: ["Glitch Engine", "Canvas 2D", "RGB Aberration", "CRT"]
+        },
+        {
+          id: "PRJ-04",
+          code: "PAYLOAD // 0x04",
+          category: "SEC/SHELL",
+          title: "BREACH-TTY // SANDBOXED ROOT SHELL",
+          desc: "Interactive client-side terminal supporting command history, smart Tab completion, and direct subsystem manipulation.",
+          arch: "Deterministic command parser with strict HTML escaping, zero eval calls, and instant keyboard/chip execution.",
+          tags: ["Terminal", "Sandboxed", "CLI", "Keyboard Nav"]
+        },
+        {
+          id: "PRJ-05",
+          code: "PAYLOAD // 0x05",
+          category: "NET/LOGS",
+          title: "PANIC-STREAM // KERNEL TELEMETRY",
+          desc: "High-frequency simulated intrusion log feed with real-time packet flood injection and severity color coding.",
+          arch: "Ring-buffer DOM stream capped at 35 nodes to guarantee zero memory growth over multi-hour sessions.",
+          tags: ["Telemetry", "Ring Buffer", "Simulation", "Cybersec"]
+        },
+        {
+          id: "PRJ-06",
+          code: "PAYLOAD // 0x06",
+          category: "MATRIX/FX",
+          title: "TOXIC-RAIN // DIGITAL GLYPH FIELD",
+          desc: "Continuous neon-green & crimson hexadecimal rain synchronized with background noise and pointer shrapnel trails.",
+          arch: "Columnar glyph stream rendered on a dedicated fixed layer with zero-fill-rate idle optimizations.",
+          tags: ["Matrix Rain", "Canvas", "Particles", "Overdrive"]
+        }
+      ],
+      socials: [
+        { name: "GITHUB // PAYLOADS", handle: "github.com/rex-h4x", url: "https://github.com" },
+        { name: "X // SIGNAL FEED", handle: "@REX_H4X_GHOST", url: "https://x.com" },
+        { name: "MATRIX // ENCRYPTED", handle: "@rex:h4x.cyber", url: "#terminal-section" },
+        { name: "KEYBASE // PGP_KEY", handle: "0xFF00-REX-H4X-MAX", url: "#uplinks" }
+      ],
+      bootMessages: [
+        { ts: "0.002", text: "BREACH INITIATED // REX-H4X KERNEL v9.66-OVERDRIVE", type: "err" },
+        { ts: "0.031", text: "OVERRIDING SAFE DEFAULTS -> SETTING GLITCH, SFX & MATRIX TO 100% MAX", type: "ok" },
+        { ts: "0.074", text: "SHATTERING PERIMETER FIREWALL [192.0.2.99 -> ROOT_ACCESS_GRANTED]", type: "warn" },
+        { ts: "0.118", text: "LOCKING 3D SHATTER-VISOR GEOMETRY & ORBITAL SHRAPNEL SWARM...", type: "ok" },
+        { ts: "0.185", text: "CRITICAL ALERT: CHROMATIC ABERRATION & SLICE TEAR AT MAXIMUM!", type: "err" },
+        { ts: "0.240", text: "ARMING 128 BPM INDUSTRIAL WEB AUDIO SYNTH & PRECOMPUTED PERC BUFFER...", type: "ok" },
+        { ts: "0.312", text: "MOUNTING /dev/breach-tty0 INTERACTIVE TERMINAL SANDBOX...", type: "ok" },
+        { ts: "0.390", text: "SYSTEM COMPROMISED // AUTO-ENGAGING INTERFACE...", type: "ok" }
+      ]
+    };
+
+    /* ==========================================================================
+       2. STATE & RESPONSIVE MEDIA QUERY WATCHERS
+       ========================================================================== */
+    const mqReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mqCoarsePointer = window.matchMedia("(pointer: coarse)");
+    const mqNarrowScreen = window.matchMedia("(max-width: 768px)");
+
+    let prefersReducedMotion = mqReducedMotion.matches;
+    let isMobile = mqCoarsePointer.matches || mqNarrowScreen.matches;
+
+    const STATE = {
+      booted: false,
+      pageHidden: false,
+      heroVisible: true,
+      mouseX: 0,
+      mouseY: 0,
+      normX: 0,
+      normY: 0,
+      corePulseBoost: 0,
+      glitchBurstTimer: 0,
+      logPaused: false,
+      lastModalTrigger: null
+    };
+
+    const DOM = {};
+
+    /* ==========================================================================
+       3. WEB AUDIO API INDUSTRIAL SYNTHESIZER (LOOKAHEAD SCHEDULER + SFX BUS)
+       ========================================================================== */
+    class CyberAudioEngine {
+      constructor() {
+        this.ctx = null;
+        this.isPlaying = false;
+        this.isMuted = false;
+        this.generation = 0;
+        this.masterGain = null;
+        this.musicGain = null;
+        this.sfxGain = null;
+        this.analyser = null;
+        this.filterNode = null;
+        this.percBuffer = null;
+        this.droneOsc1 = null;
+        this.droneOsc2 = null;
+        this.subOsc = null;
+
+        // Lookahead Scheduler state
+        this.schedulerTimer = null;
+        this.nextNoteTime = 0;
+        this.current16thStep = 0;
+        this.lookaheadMs = 25.0;
+        this.scheduleAheadSec = 0.1;
+
+        this.freqData = new Uint8Array(128);
+        this.timeData = new Uint8Array(128);
+
+        // Aggressive Dark Phrygian Dominant / Cyberpunk Industrial scale
+        this.arpNotes = [110.0, 116.54, 138.59, 146.83, 164.81, 174.61, 196.0, 220.0, 233.08, 277.18, 329.63];
+        this.bassNotes = [55.0, 55.0, 58.27, 55.0, 65.41, 58.27, 49.0, 41.20];
+      }
+
+      initContext() {
+        if (this.ctx) return true;
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return false;
+
+        this.ctx = new AudioCtx();
+        const now = this.ctx.currentTime;
+
+        this.masterGain = this.ctx.createGain();
+        this.masterGain.gain.setValueAtTime(CONFIG.settings.masterVolume, now);
+
+        this.musicGain = this.ctx.createGain();
+        this.musicGain.gain.setValueAtTime(0.0001, now);
+
+        this.sfxGain = this.ctx.createGain();
+        this.sfxGain.gain.setValueAtTime(0.95, now);
+
+        this.filterNode = this.ctx.createBiquadFilter();
+        this.filterNode.type = "lowpass";
+        this.filterNode.frequency.setValueAtTime(CONFIG.settings.filterCutoff, now);
+        this.filterNode.Q.setValueAtTime(6.2, now);
+
+        // Stereo Delay Feedback Loop
+        this.delayNode = this.ctx.createDelay(1.0);
+        this.delayNode.delayTime.setValueAtTime(0.23, now);
+        this.delayFeedback = this.ctx.createGain();
+        this.delayFeedback.gain.setValueAtTime(0.38, now);
+        this.delayNode.connect(this.delayFeedback);
+        this.delayFeedback.connect(this.delayNode);
+
+        this.analyser = this.ctx.createAnalyser();
+        this.analyser.fftSize = 256;
+        this.analyser.smoothingTimeConstant = 0.8;
+        this.freqData = new Uint8Array(this.analyser.frequencyBinCount);
+        this.timeData = new Uint8Array(this.analyser.frequencyBinCount);
+
+        // Precompute reusable noise buffer once
+        const bufLen = Math.floor(this.ctx.sampleRate * 0.05);
+        this.percBuffer = this.ctx.createBuffer(1, bufLen, this.ctx.sampleRate);
+        const chData = this.percBuffer.getChannelData(0);
+        for (let i = 0; i < bufLen; i++) {
+          chData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufLen * 0.28));
+        }
+
+        // Graph routing: music & sfx both pass through masterGain -> analyser -> destination
+        this.filterNode.connect(this.musicGain);
+        this.filterNode.connect(this.delayNode);
+        this.delayNode.connect(this.musicGain);
+        this.musicGain.connect(this.masterGain);
+        this.sfxGain.connect(this.masterGain);
+        this.masterGain.connect(this.analyser);
+        this.analyser.connect(this.ctx.destination);
+        return true;
+      }
+
+      startMusic() {
+        if (!this.initContext()) return;
+        if (this.ctx.state === "suspended") {
+          this.ctx.resume();
+        }
+        this.generation++; // Invalidate any pending stopMusic cleanup
+
+        // Fix #2: If already playing (e.g., restarted during a 400ms fade-out), cancel the fade-out and ramp back up
+        if (this.isPlaying) {
+          const now = this.ctx.currentTime;
+          this.musicGain.gain.cancelScheduledValues(now);
+          this.musicGain.gain.setValueAtTime(Math.max(0.0001, this.musicGain.gain.value), now);
+          this.musicGain.gain.linearRampToValueAtTime(1.0, now + 0.15);
+          updateAudioUI();
+          return;
+        }
+
+        const now = this.ctx.currentTime;
+        this.cleanupOscillators();
+
+        // Industrial Sawtooth Drones + Sub Bass
+        this.droneOsc1 = this.ctx.createOscillator();
+        this.droneOsc2 = this.ctx.createOscillator();
+        this.subOsc = this.ctx.createOscillator();
+        const droneGain = this.ctx.createGain();
+        droneGain.gain.setValueAtTime(0.18, now);
+
+        this.droneOsc1.type = "sawtooth";
+        this.droneOsc1.frequency.setValueAtTime(55.0, now);
+        this.droneOsc2.type = "sawtooth";
+        this.droneOsc2.frequency.setValueAtTime(55.45, now);
+        this.subOsc.type = "sine";
+        this.subOsc.frequency.setValueAtTime(27.5, now);
+
+        this.droneOsc1.connect(droneGain);
+        this.droneOsc2.connect(droneGain);
+        this.subOsc.connect(droneGain);
+        droneGain.connect(this.filterNode);
+
+        this.droneOsc1.start(now);
+        this.droneOsc2.start(now);
+        this.subOsc.start(now);
+
+        // Smooth Fade-in on musicGain
+        this.musicGain.gain.cancelScheduledValues(now);
+        this.musicGain.gain.setValueAtTime(0.001, now);
+        this.musicGain.gain.linearRampToValueAtTime(1.0, now + 0.75);
+
+        this.isPlaying = true;
+        this.current16thStep = 0;
+        this.nextNoteTime = this.ctx.currentTime + 0.05;
+        this.startLookaheadScheduler();
+        updateAudioUI();
+      }
+
+      cleanupOscillators() {
+        try {
+          if (this.droneOsc1) this.droneOsc1.stop();
+          if (this.droneOsc2) this.droneOsc2.stop();
+          if (this.subOsc) this.subOsc.stop();
+        } catch (e) {}
+        this.droneOsc1 = null;
+        this.droneOsc2 = null;
+        this.subOsc = null;
+      }
+
+      // Precision AudioContext Lookahead Scheduler with background backlog protection (Fix #1)
+      startLookaheadScheduler() {
+        if (this.schedulerTimer) clearInterval(this.schedulerTimer);
+        this.schedulerTimer = setInterval(() => {
+          if (!this.isPlaying || !this.ctx || STATE.pageHidden) return;
+          const now = this.ctx.currentTime;
+
+          // If tab was hidden or throttled, drop the backlog and resume cleanly from "now"
+          if (this.nextNoteTime < now - 0.5) {
+            this.nextNoteTime = now + 0.05;
+          }
+
+          while (this.nextNoteTime < now + this.scheduleAheadSec) {
+            this.scheduleStep(this.current16thStep, this.nextNoteTime);
+            // Note: reading CONFIG.settings.arpBpm per step applies tempo slider changes on the next 16th note
+            const secondsPerBeat = 60.0 / CONFIG.settings.arpBpm;
+            this.nextNoteTime += 0.25 * secondsPerBeat;
+            this.current16thStep = (this.current16thStep + 1) % 64;
+          }
+        }, this.lookaheadMs);
+      }
+
+      scheduleStep(step, time) {
+        // Driving Industrial Bass on every 8th note + syncopated 16ths
+        if (step % 2 === 0 || step % 16 === 15) {
+          const bassFreq = this.bassNotes[Math.floor(step / 2) % this.bassNotes.length];
+          const bOsc = this.ctx.createOscillator();
+          const bGain = this.ctx.createGain();
+          bOsc.type = step % 4 === 0 ? "sawtooth" : "triangle";
+          bOsc.frequency.setValueAtTime(bassFreq, time);
+          bGain.gain.setValueAtTime(0.28, time);
+          bGain.gain.exponentialRampToValueAtTime(0.001, time + 0.19);
+          bOsc.connect(bGain);
+          bGain.connect(this.filterNode);
+          bOsc.start(time);
+          bOsc.stop(time + 0.2);
+        }
+
+        // Aggressive Sci-Fi Arpeggiator
+        if (step % 1 === 0) {
+          const noteIdx = (step * 3 + Math.floor(step / 8)) % this.arpNotes.length;
+          const freq = this.arpNotes[noteIdx];
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = step % 3 === 0 ? "sawtooth" : "square";
+          osc.frequency.setValueAtTime(freq, time);
+          gain.gain.setValueAtTime(0.085, time);
+          gain.gain.exponentialRampToValueAtTime(0.0008, time + 0.16);
+          osc.connect(gain);
+          gain.connect(this.filterNode);
+          osc.start(time);
+          osc.stop(time + 0.17);
+        }
+
+        // Precomputed Noise Percussion on off-beats & fills
+        if (step % 4 === 2 || step % 8 === 7) {
+          this.schedulePercHit(time, step % 8 === 7 ? 0.09 : 0.045, this.musicGain);
+        }
+      }
+
+      // Fix #4: Parameterized destination node so music perc goes to musicGain and glitch SFX goes to sfxGain
+      schedulePercHit(time, amp, dest = this.musicGain) {
+        if (!this.ctx || !this.percBuffer || !dest) return;
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = this.percBuffer;
+
+        const hp = this.ctx.createBiquadFilter();
+        hp.type = "highpass";
+        hp.frequency.setValueAtTime(2600, time);
+
+        const g = this.ctx.createGain();
+        g.gain.setValueAtTime(amp, time);
+
+        noise.connect(hp);
+        hp.connect(g);
+        g.connect(dest);
+        noise.start(time);
+      }
+
+      stopMusic() {
+        if (!this.isPlaying || !this.ctx) return;
+        const gen = ++this.generation;
+        const now = this.ctx.currentTime;
+        this.musicGain.gain.cancelScheduledValues(now);
+        this.musicGain.gain.setValueAtTime(this.musicGain.gain.value, now);
+        this.musicGain.gain.linearRampToValueAtTime(0.0001, now + 0.4);
+
+        setTimeout(() => {
+          if (gen !== this.generation) return;
+          this.cleanupOscillators();
+          if (this.schedulerTimer) clearInterval(this.schedulerTimer);
+          this.isPlaying = false;
+          updateAudioUI();
+        }, 420);
+      }
+
+      togglePlay() {
+        if (this.isPlaying) {
+          this.stopMusic();
+        } else {
+          this.startMusic();
+        }
+      }
+
+      toggleMute() {
+        if (!this.initContext()) return;
+        this.isMuted = !this.isMuted;
+        const now = this.ctx.currentTime;
+        const target = this.isMuted ? 0.0001 : CONFIG.settings.masterVolume;
+        this.masterGain.gain.setTargetAtTime(target, now, 0.05);
+        updateAudioUI();
+      }
+
+      setVolume(val) {
+        CONFIG.settings.masterVolume = val;
+        if (this.ctx && this.masterGain && !this.isMuted) {
+          this.masterGain.gain.setTargetAtTime(val, this.ctx.currentTime, 0.04);
+        }
+      }
+
+      setCutoff(hz) {
+        CONFIG.settings.filterCutoff = hz;
+        if (this.ctx && this.filterNode) {
+          this.filterNode.frequency.setTargetAtTime(hz, this.ctx.currentTime, 0.04);
+        }
+      }
+
+      setTempo(bpm) {
+        CONFIG.settings.arpBpm = bpm;
+      }
+
+      // Fix #8: Real Sub-Bass Drop impact for the "BASS DROP / TEAR" button
+      triggerBassDrop() {
+        if (!this.initContext()) return;
+        if (this.ctx.state === "suspended") this.ctx.resume();
+        if (this.isMuted) return;
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const g = this.ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(125, now);
+        osc.frequency.exponentialRampToValueAtTime(28, now + 0.42);
+        g.gain.setValueAtTime(0.48, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now + 0.46);
+        osc.connect(g);
+        g.connect(this.sfxGain);
+        osc.start(now);
+        osc.stop(now + 0.48);
+        this.schedulePercHit(now, 0.18, this.sfxGain);
+      }
+
+      playSFX(type = "click") {
+        if (!CONFIG.settings.sfxEnabled || this.isMuted) return;
+        if (!this.ctx || this.ctx.state === "closed") return;
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.sfxGain);
+
+        if (type === "hover") {
+          osc.type = "sawtooth";
+          osc.frequency.setValueAtTime(1620, now);
+          osc.frequency.exponentialRampToValueAtTime(2400, now + 0.03);
+          gain.gain.setValueAtTime(0.03, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+          osc.start(now);
+          osc.stop(now + 0.04);
+        } else if (type === "click") {
+          osc.type = "square";
+          osc.frequency.setValueAtTime(640, now);
+          osc.frequency.exponentialRampToValueAtTime(1480, now + 0.065);
+          gain.gain.setValueAtTime(0.09, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.075);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === "key") {
+          osc.type = "square";
+          osc.frequency.setValueAtTime(980 + Math.random() * 320, now);
+          gain.gain.setValueAtTime(0.03, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.022);
+          osc.start(now);
+          osc.stop(now + 0.025);
+        } else if (type === "glitch") {
+          osc.type = "sawtooth";
+          osc.frequency.setValueAtTime(190, now);
+          osc.frequency.linearRampToValueAtTime(48, now + 0.2);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+          osc.start(now);
+          osc.stop(now + 0.23);
+          this.schedulePercHit(now, 0.14, this.sfxGain);
+        } else if (type === "error") {
+          osc.type = "sawtooth";
+          osc.frequency.setValueAtTime(150, now);
+          osc.frequency.setValueAtTime(110, now + 0.09);
+          gain.gain.setValueAtTime(0.14, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+          osc.start(now);
+          osc.stop(now + 0.25);
+        }
+      }
+
+      getAudioEnergy() {
+        if (!this.isPlaying || !this.analyser || this.isMuted) return { bass: 0, mid: 0 };
+        this.analyser.getByteFrequencyData(this.freqData);
+        this.analyser.getByteTimeDomainData(this.timeData);
+        let bassSum = 0;
+        let midSum = 0;
+        for (let i = 0; i < 8; i++) bassSum += this.freqData[i];
+        for (let i = 8; i < 32; i++) midSum += this.freqData[i];
+        return {
+          bass: bassSum / (8 * 255),
+          mid: midSum / (24 * 255)
+        };
+      }
+    }
+
+    const audioEngine = new CyberAudioEngine();
+
+    function updateAudioUI() {
+      const { pill, label, heroBtn, hudState, deckStatus, muteBtn } = DOM;
+      if (!pill) return;
+
+      if (audioEngine.isPlaying && !audioEngine.isMuted) {
+        pill.classList.add("playing");
+        label.textContent = "SYNTH: OVERDRIVE";
+        heroBtn.textContent = "PAUSE AUDIO";
+        hudState.textContent = `ACTIVE // ${CONFIG.settings.arpBpm} BPM`;
+        deckStatus.textContent = "STATE: OVERDRIVE STREAMING";
+      } else if (audioEngine.isPlaying && audioEngine.isMuted) {
+        pill.classList.remove("playing");
+        label.textContent = "SYNTH: MUTED";
+        heroBtn.textContent = "UNMUTE AUDIO";
+        hudState.textContent = "MUTED";
+        deckStatus.textContent = "STATE: MUTED";
+      } else {
+        pill.classList.remove("playing");
+        label.textContent = "ENGAGE SYNTH";
+        heroBtn.textContent = "ENABLE AUDIO";
+        hudState.textContent = `MAX // ${CONFIG.settings.arpBpm} BPM`;
+        deckStatus.textContent = "STATE: ARMED [MAX]";
+      }
+
+      if (muteBtn) {
+        muteBtn.textContent = `MUTE: ${audioEngine.isMuted ? "ON" : "OFF"}`;
+      }
+    }
+
+    /* ==========================================================================
+       4. 3D HERO ENGINE (THREE.JS + SAFE NATIVE 3D PROJECTION FALLBACK)
+       ========================================================================== */
+    class Hero3DEngine {
+      constructor(canvas) {
+        this.canvas = canvas;
+        this.useThree = typeof THREE !== "undefined";
+        this.lastFrameTime = performance.now();
+        this.frameCount = 0;
+        this.fps = 60;
+        this.baseOffsetX = window.innerWidth > 960 ? 1.55 : 0;
+
+        if (this.useThree) {
+          try {
+            this.initThree();
+          } catch (err) {
+            this.useThree = false;
+            this.initFallback3D();
+          }
+        } else {
+          this.initFallback3D();
+        }
+      }
+
+      initThree() {
+        if (DOM.rendererName) DOM.rendererName.textContent = "THREE.JS // OVERDRIVE";
+        if (DOM.engineIndicator) DOM.engineIndicator.textContent = "WEBGL // COMPROMISED";
+
+        this.scene = new THREE.Scene();
+        this.scene.fog = new THREE.FogExp2(0x020302, 0.038);
+
+        const w = this.canvas.clientWidth || window.innerWidth;
+        const h = this.canvas.clientHeight || window.innerHeight;
+
+        this.camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
+        this.camera.position.set(0, 0.15, isMobile ? 9.2 : 7.3);
+
+        this.renderer = new THREE.WebGLRenderer({
+          canvas: this.canvas,
+          antialias: !isMobile,
+          alpha: true,
+          powerPreference: "high-performance"
+        });
+        this.renderer.setSize(w, h, false);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
+
+        this.rootGroup = new THREE.Group();
+        this.rootGroup.position.x = this.baseOffsetX;
+        this.scene.add(this.rootGroup);
+
+        // High-Contrast Destructive Lighting
+        const ambient = new THREE.AmbientLight(0x16060b, 1.5);
+        this.scene.add(ambient);
+
+        this.greenLight = new THREE.PointLight(0x39ff14, 3.6, 20);
+        this.greenLight.position.set(4, 3, 4);
+        this.scene.add(this.greenLight);
+
+        this.cyanLight = new THREE.PointLight(0x00f0ff, 2.8, 20);
+        this.cyanLight.position.set(-4, -3, 3);
+        this.scene.add(this.cyanLight);
+
+        this.redLight = new THREE.PointLight(0xff003c, 3.2, 18);
+        this.redLight.position.set(0, 2.5, 5);
+        this.scene.add(this.redLight);
+
+        // 1. Shattered Cybernetic Mask / Spiked Core
+        this.coreGroup = new THREE.Group();
+        this.rootGroup.add(this.coreGroup);
+
+        const maskGeo = new THREE.IcosahedronGeometry(1.48, 1);
+        const pos = maskGeo.attributes.position;
+        for (let i = 0; i < pos.count; i++) {
+          let x = pos.getX(i);
+          let y = pos.getY(i);
+          let z = pos.getZ(i);
+          if (y < -0.25) {
+            x *= 0.68;
+            y *= 1.24;
+          }
+          if (z > 0.45) {
+            z *= 1.18;
+          }
+          pos.setXYZ(i, x, y, z);
+        }
+        maskGeo.computeVertexNormals();
+
+        const solidMat = new THREE.MeshStandardMaterial({
+          color: 0x090406,
+          metalness: 0.9,
+          roughness: 0.18,
+          emissive: 0x190208,
+          emissiveIntensity: 0.65,
+          flatShading: true
+        });
+        this.maskMesh = new THREE.Mesh(maskGeo, solidMat);
+        this.coreGroup.add(this.maskMesh);
+
+        // Dual Wireframe Cages (Neon Green + Crimson Fracture)
+        const wireGeo = new THREE.EdgesGeometry(maskGeo);
+        this.maskWire = new THREE.LineSegments(
+          wireGeo,
+          new THREE.LineBasicMaterial({ color: 0x39ff14, transparent: true, opacity: 0.92 })
+        );
+        this.maskWire.scale.setScalar(1.018);
+        this.coreGroup.add(this.maskWire);
+
+        this.crimsonWire = new THREE.LineSegments(
+          wireGeo,
+          new THREE.LineBasicMaterial({ color: 0xff003c, transparent: true, opacity: 0.65 })
+        );
+        this.crimsonWire.scale.setScalar(1.055);
+        this.crimsonWire.rotation.y = 0.12;
+        this.coreGroup.add(this.crimsonWire);
+
+        // Aggressive Crimson Ocular Visor Slit
+        const visorGeo = new THREE.BoxGeometry(1.65, 0.2, 0.5);
+        this.visorMesh = new THREE.Mesh(visorGeo, new THREE.MeshBasicMaterial({ color: 0xff003c }));
+        this.visorMesh.position.set(0, 0.24, 1.28);
+        this.coreGroup.add(this.visorMesh);
+
+        // 2. Orbiting Shrapnel Shards + Gyroscope Rings
+        this.ringsGroup = new THREE.Group();
+        this.rootGroup.add(this.ringsGroup);
+
+        this.ring1 = new THREE.Mesh(
+          new THREE.TorusGeometry(2.3, 0.026, 16, 90),
+          new THREE.MeshBasicMaterial({ color: 0xff003c, wireframe: true })
+        );
+        this.ring1.rotation.x = Math.PI / 3;
+        this.ringsGroup.add(this.ring1);
+
+        this.ring2 = new THREE.Mesh(
+          new THREE.TorusGeometry(2.75, 0.02, 12, 72),
+          new THREE.MeshBasicMaterial({ color: 0x39ff14, transparent: true, opacity: 0.8 })
+        );
+        this.ring2.rotation.y = Math.PI / 4;
+        this.ringsGroup.add(this.ring2);
+
+        const cageGeo = new THREE.OctahedronGeometry(3.25, 1);
+        this.outerCage = new THREE.LineSegments(
+          new THREE.EdgesGeometry(cageGeo),
+          new THREE.LineBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.3 })
+        );
+        this.ringsGroup.add(this.outerCage);
+
+        // Orbiting Shrapnel Tetrahedron Shards
+        this.shardsGroup = new THREE.Group();
+        this.rootGroup.add(this.shardsGroup);
+        const shardGeo = new THREE.TetrahedronGeometry(0.16, 0);
+        const shardMatG = new THREE.MeshBasicMaterial({ color: 0x39ff14, wireframe: true });
+        const shardMatR = new THREE.MeshBasicMaterial({ color: 0xff003c, wireframe: true });
+
+        for (let i = 0; i < 18; i++) {
+          const m = new THREE.Mesh(shardGeo, i % 2 === 0 ? shardMatR : shardMatG);
+          const angle = (i / 18) * Math.PI * 2;
+          const rad = 2.0 + (i % 3) * 0.55;
+          m.position.set(Math.cos(angle) * rad, (Math.random() - 0.5) * 2.4, Math.sin(angle) * rad);
+          m.rotation.set(Math.random() * 3, Math.random() * 3, 0);
+          this.shardsGroup.add(m);
+        }
+
+        // 3. Particle Field
+        const pCount = isMobile ? 400 : 1200;
+        const pGeo = new THREE.BufferGeometry();
+        const pPositions = new Float32Array(pCount * 3);
+        for (let i = 0; i < pCount * 3; i += 3) {
+          pPositions[i] = (Math.random() - 0.5) * 24;
+          pPositions[i + 1] = (Math.random() - 0.5) * 15;
+          pPositions[i + 2] = (Math.random() - 0.5) * 16 - 2;
+        }
+        pGeo.setAttribute("position", new THREE.BufferAttribute(pPositions, 3));
+        this.particles = new THREE.Points(
+          pGeo,
+          new THREE.PointsMaterial({
+            color: 0x39ff14,
+            size: isMobile ? 0.065 : 0.05,
+            transparent: true,
+            opacity: 0.82
+          })
+        );
+        this.scene.add(this.particles);
+      }
+
+      // Safe WebGL -> 2D Canvas Fallback: replaces locked canvas node first
+      initFallback3D() {
+        const fresh = this.canvas.cloneNode(false);
+        this.canvas.replaceWith(fresh);
+        this.canvas = fresh;
+        this.ctx2d = fresh.getContext("2d");
+
+        if (DOM.rendererName) DOM.rendererName.textContent = "NATIVE 3D // OVERDRIVE";
+        if (DOM.engineIndicator) DOM.engineIndicator.textContent = "CANVAS-3D // ACTIVE";
+
+        this.resizeFallback();
+
+        this.fbVertices = [
+          [0, 1.55, 0], [1.25, 0.4, 1.05], [-1.25, 0.4, 1.05],
+          [1.25, 0.4, -1.05], [-1.25, 0.4, -1.05],
+          [0.85, -1.15, 0.85], [-0.85, -1.15, 0.85],
+          [0.85, -1.15, -0.85], [-0.85, -1.15, -0.85],
+          [0, -1.7, 0], [0, 0.22, 1.5]
+        ];
+        this.fbEdges = [
+          [0,1],[0,2],[0,3],[0,4],
+          [1,2],[2,4],[4,3],[3,1],
+          [1,5],[2,6],[3,7],[4,8],
+          [5,6],[6,8],[8,7],[7,5],
+          [5,9],[6,9],[7,9],[8,9],
+          [1,10],[2,10],[5,10],[6,10]
+        ];
+      }
+
+      resizeFallback() {
+        if (!this.ctx2d) return;
+        this.canvas.width = this.canvas.clientWidth || window.innerWidth;
+        this.canvas.height = this.canvas.clientHeight || window.innerHeight;
+      }
+
+      triggerPulse() {
+        STATE.corePulseBoost = 1.25;
+        triggerGlitchTransition(18, false);
+      }
+
+      onResize() {
+        this.baseOffsetX = window.innerWidth > 960 ? 1.55 : 0;
+        if (this.useThree && this.renderer && this.camera) {
+          const w = this.canvas.clientWidth || window.innerWidth;
+          const h = this.canvas.clientHeight || window.innerHeight;
+          this.camera.aspect = w / h;
+          this.camera.updateProjectionMatrix();
+          this.renderer.setSize(w, h, false);
+          this.rootGroup.position.x = this.baseOffsetX;
+        } else {
+          this.resizeFallback();
+        }
+      }
+
+      render(time) {
+        this.frameCount++;
+        if (time - this.lastFrameTime >= 500) {
+          this.fps = Math.round((this.frameCount * 1000) / (time - this.lastFrameTime));
+          if (DOM.fpsEl) DOM.fpsEl.textContent = `${this.fps} FPS`;
+          this.frameCount = 0;
+          this.lastFrameTime = time;
+        }
+
+        const t = time * 0.001;
+        const energy = audioEngine.getAudioEnergy();
+        const scalePulse = 1 + energy.bass * 0.34 + STATE.corePulseBoost * 0.38;
+
+        if (this.useThree) {
+          const targetRotY = STATE.normX * 0.75;
+          const targetRotX = STATE.normY * 0.48;
+
+          this.coreGroup.rotation.y += (targetRotY - this.coreGroup.rotation.y) * 0.07;
+          this.coreGroup.rotation.x += (targetRotX - this.coreGroup.rotation.x) * 0.07;
+          this.coreGroup.position.y = Math.sin(t * 2.2) * 0.16;
+          this.coreGroup.scale.setScalar(scalePulse);
+
+          this.crimsonWire.rotation.z = Math.sin(t * 4) * 0.08;
+          this.ring1.rotation.z = t * 0.85;
+          this.ring1.rotation.x = Math.PI / 3 + Math.sin(t * 0.9) * 0.3;
+          this.ring2.rotation.y = -t * 0.65;
+          this.ring2.rotation.x = Math.cos(t * 0.6) * 0.4;
+          this.outerCage.rotation.y = t * 0.28;
+          this.outerCage.rotation.z = -t * 0.2;
+          this.ringsGroup.scale.setScalar(1 + energy.mid * 0.24);
+
+          this.shardsGroup.rotation.y = -t * 0.55;
+          this.shardsGroup.rotation.x = Math.sin(t * 0.5) * 0.2;
+          this.particles.rotation.y = t * 0.06 + STATE.normX * 0.1;
+
+          if (STATE.glitchBurstTimer > 0) {
+            this.redLight.intensity = 8.5;
+            this.rootGroup.position.x = this.baseOffsetX + (Math.random() - 0.5) * 0.42;
+            this.rootGroup.position.y = (Math.random() - 0.5) * 0.22;
+          } else {
+            this.redLight.intensity = 2.4 + energy.bass * 3.0;
+            this.rootGroup.position.x += (this.baseOffsetX - this.rootGroup.position.x) * 0.2;
+            this.rootGroup.position.y += (0 - this.rootGroup.position.y) * 0.2;
+          }
+
+          this.renderer.render(this.scene, this.camera);
+        } else if (this.ctx2d) {
+          const ctx = this.ctx2d;
+          const w = this.canvas.width;
+          const h = this.canvas.height;
+          ctx.clearRect(0, 0, w, h);
+
+          const jitterX = STATE.glitchBurstTimer > 0 ? (Math.random() - 0.5) * 28 : 0;
+          const cx = (w > 960 ? w * 0.68 : w * 0.5) + jitterX;
+          const cy = h * 0.5;
+          const scale = Math.min(w, h) * 0.16 * scalePulse;
+
+          const ay = t * 0.75 + STATE.normX * 0.85;
+          const ax = Math.sin(t * 0.5) * 0.35 + STATE.normY * 0.55;
+
+          const project = ([x, y, z]) => {
+            const x1 = x * Math.cos(ay) - z * Math.sin(ay);
+            const z1 = z * Math.cos(ay) + x * Math.sin(ay);
+            const y2 = y * Math.cos(ax) - z1 * Math.sin(ax);
+            const z2 = z1 * Math.cos(ax) + y * Math.sin(ax);
+            const fov = 4.2 / (4.2 + z2);
+            return [cx + x1 * scale * fov, cy - y2 * scale * fov];
+          };
+
+          ctx.save();
+          ctx.strokeStyle = "rgba(255, 0, 60, 0.5)";
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, scale * 1.7, scale * 0.78, t * 0.5, 0, Math.PI * 2);
+          ctx.stroke();
+
+          ctx.strokeStyle = "rgba(57, 255, 20, 0.5)";
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, scale * 1.45, scale * 1.15, -t * 0.4, 0, Math.PI * 2);
+          ctx.stroke();
+
+          const pts = this.fbVertices.map(project);
+          ctx.strokeStyle = STATE.glitchBurstTimer > 0 ? "#FF003C" : "#39FF14";
+          ctx.shadowColor = "#FF003C";
+          ctx.shadowBlur = 14;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          for (const [a, b] of this.fbEdges) {
+            ctx.moveTo(pts[a][0], pts[a][1]);
+            ctx.lineTo(pts[b][0], pts[b][1]);
+          }
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+    }
+
+    /* ==========================================================================
+       5. GLITCH ENGINE, REUSABLE CRT NOISE, MATRIX RAIN & CURSOR TRAIL
+       ========================================================================== */
+    let matrixColumns = [];
+    const trailParticles = [];
+    let trailWasDirty = false;
+    let glitchRafId = null;
+    let noiseImageData = null;
+
+    function resizeOverlayCanvases() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      DOM.noiseCanvas.width = 180;
+      DOM.noiseCanvas.height = 180;
+      DOM.sliceCanvas.width = w;
+      DOM.sliceCanvas.height = h;
+      DOM.matrixCanvas.width = w;
+      DOM.matrixCanvas.height = h;
+      DOM.cursorCanvas.width = w;
+      DOM.cursorCanvas.height = h;
+
+      if (DOM.deckVizCanvas) {
+        const rect = DOM.deckVizCanvas.getBoundingClientRect();
+        DOM.deckVizCanvas.width = Math.max(300, Math.floor(rect.width * dpr));
+        DOM.deckVizCanvas.height = Math.max(120, Math.floor(rect.height * dpr));
+      }
+      if (DOM.headerVizCanvas) {
+        DOM.headerVizCanvas.width = Math.floor(44 * dpr);
+        DOM.headerVizCanvas.height = Math.floor(18 * dpr);
+      }
+
+      const cols = Math.floor(w / 18);
+      matrixColumns = Array.from({ length: cols }, () => Math.random() * -50);
+    }
+
+    // Fix #10: Reuse single ImageData buffer to avoid 2.6 MB/s short-lived allocations
+    function renderCRTNoise() {
+      const ctx = DOM.noiseCtx;
+      const w = DOM.noiseCanvas.width;
+      const h = DOM.noiseCanvas.height;
+      if (!noiseImageData || noiseImageData.width !== w || noiseImageData.height !== h) {
+        noiseImageData = ctx.createImageData(w, h);
+      }
+      const buf = new Uint32Array(noiseImageData.data.buffer);
+      buf.fill(0);
+      for (let i = 0; i < buf.length; i++) {
+        const r = Math.random();
+        if (r < 0.18) buf[i] = 0x3839ff14;
+        else if (r < 0.26) buf[i] = 0x383c00ff;
+      }
+      ctx.putImageData(noiseImageData, 0, 0);
+    }
+
+    // Fix #3: Support silent=true for autonomous ambient bursts so audio isn't spammed every 1.2s
+    function triggerGlitchTransition(intensity = 20, silent = false) {
+      if (prefersReducedMotion || CONFIG.settings.glitchMode === "off") return;
+      STATE.glitchBurstTimer = Math.max(STATE.glitchBurstTimer, intensity);
+      if (!silent) {
+        audioEngine.playSFX("glitch");
+      }
+
+      if (glitchRafId) {
+        cancelAnimationFrame(glitchRafId);
+        glitchRafId = null;
+      }
+
+      const ctx = DOM.sliceCtx;
+      const w = DOM.sliceCanvas.width;
+      const h = DOM.sliceCanvas.height;
+      let frames = 0;
+
+      const drawSlices = () => {
+        ctx.clearRect(0, 0, w, h);
+        if (frames++ > 12) {
+          ctx.clearRect(0, 0, w, h);
+          glitchRafId = null;
+          return;
+        }
+        const sliceCount = Math.floor(Math.random() * 10) + 6;
+        for (let i = 0; i < sliceCount; i++) {
+          const sy = Math.random() * h;
+          const sh = Math.random() * 34 + 4;
+          const sx = (Math.random() - 0.5) * 110;
+          ctx.fillStyle =
+            i % 3 === 0
+              ? "rgba(255, 0, 60, 0.28)"
+              : i % 3 === 1
+              ? "rgba(57, 255, 20, 0.22)"
+              : "rgba(0, 240, 255, 0.22)";
+          ctx.fillRect(sx, sy, w, sh);
+        }
+        glitchRafId = requestAnimationFrame(drawSlices);
+      };
+      glitchRafId = requestAnimationFrame(drawSlices);
+    }
+
+    function renderMatrixRain() {
+      if (!CONFIG.settings.matrixRain) return;
+      const ctx = DOM.matrixCtx;
+      const w = DOM.matrixCanvas.width;
+      const h = DOM.matrixCanvas.height;
+      ctx.fillStyle = "rgba(2, 3, 2, 0.09)";
+      ctx.fillRect(0, 0, w, h);
+      ctx.font = "14px monospace";
+
+      const chars = "REX-H4X0123456789ABCDEF<>/{}[]#$*!%";
+      for (let i = 0; i < matrixColumns.length; i++) {
+        const ch = chars[(Math.random() * chars.length) | 0];
+        const x = i * 18;
+        const y = matrixColumns[i] * 18;
+        ctx.fillStyle = i % 5 === 0 ? "#FF003C" : "#39FF14";
+        ctx.fillText(ch, x, y);
+        if (y > h && Math.random() > 0.972) {
+          matrixColumns[i] = 0;
+        }
+        matrixColumns[i] += 0.72;
+      }
+    }
+
+    function renderCursorTrail() {
+      const ctx = DOM.cursorCtx;
+      if (!CONFIG.settings.particleTrail || isMobile) {
+        if (trailParticles.length > 0 || trailWasDirty) {
+          trailParticles.length = 0;
+          ctx.clearRect(0, 0, DOM.cursorCanvas.width, DOM.cursorCanvas.height);
+          trailWasDirty = false;
+        }
+        return;
+      }
+      if (trailParticles.length === 0) {
+        if (trailWasDirty) {
+          ctx.clearRect(0, 0, DOM.cursorCanvas.width, DOM.cursorCanvas.height);
+          trailWasDirty = false;
+        }
+        return;
+      }
+
+      trailWasDirty = true;
+      ctx.clearRect(0, 0, DOM.cursorCanvas.width, DOM.cursorCanvas.height);
+      for (let i = trailParticles.length - 1; i >= 0; i--) {
+        const p = trailParticles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= 0.04;
+        if (p.life <= 0) {
+          trailParticles.splice(i, 1);
+          continue;
+        }
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.life;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    /* ==========================================================================
+       6. TEXT SCRAMBLING (PRESERVES INNER <SPAN> MARKUP & GLITCH LAYER SYNC)
+       ========================================================================== */
+    const SCRAMBLE_CHARS = "!<>-_\\/[]{}—=+*^?#01X4R$%";
+
+    function scrambleText(el) {
+      if (prefersReducedMotion || !el || el.dataset.scrambling === "true") return;
+
+      if (!el.dataset.originalHtml) {
+        el.dataset.originalHtml = el.innerHTML;
+      }
+      const finalHtml = el.dataset.originalHtml;
+      const plain = el.textContent;
+      el.dataset.scrambling = "true";
+      el.classList.add("is-scrambling");
+
+      let iteration = 0;
+      const interval = setInterval(() => {
+        el.textContent = plain
+          .split("")
+          .map((ch, idx) => {
+            if (ch === " ") return " ";
+            if (idx < iteration) return plain[idx];
+            return SCRAMBLE_CHARS[(Math.random() * SCRAMBLE_CHARS.length) | 0];
+          })
+          .join("");
+
+        iteration += Math.max(0.5, plain.length / 16);
+        if (iteration >= plain.length) {
+          el.innerHTML = finalHtml;
+          if (el.hasAttribute("data-text")) {
+            el.setAttribute("data-text", plain);
+          }
+          el.classList.remove("is-scrambling");
+          el.dataset.scrambling = "false";
+          clearInterval(interval);
+        }
+      }, 26);
+    }
+
+    /* ==========================================================================
+       7. POPULATE CONTENT SAFELY FROM CONFIG & MODAL FOCUS/INERT MANAGEMENT
+       ========================================================================== */
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Fix #5: Central helper to toggle inert on header, main, and footer when a modal/dialog is active
+    function setBackgroundInert(isInert) {
+      [DOM.headerEl, DOM.mainEl, DOM.footerEl].forEach(el => {
+        if (el) el.toggleAttribute("inert", isInert);
+      });
+    }
+
+    // Fix #6: Reusable Tab focus trap for modal dialogs
+    function trapDialogFocus(container, e) {
+      if (e.key !== "Tab") return;
+      const focusables = container.querySelectorAll(
+        "button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex='-1'])"
+      );
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    function renderConfigContent() {
+      const rootStyle = document.documentElement.style;
+      rootStyle.setProperty("--neon-green", CONFIG.colors.neonGreen);
+      rootStyle.setProperty("--electric-cyan", CONFIG.colors.electricCyan);
+      rootStyle.setProperty("--error-red", CONFIG.colors.errorRed);
+      rootStyle.setProperty("--bg-void", CONFIG.colors.bgVoid);
+
+      document.getElementById("boot-brand-handle").textContent = CONFIG.identity.handle;
+      document.getElementById("header-brand-title").textContent = CONFIG.identity.handle;
+      DOM.heroMainTitle.textContent = CONFIG.identity.handle;
+      DOM.heroMainTitle.setAttribute("data-text", CONFIG.identity.handle);
+      document.getElementById("hero-status-badge").textContent = CONFIG.identity.statusBadge;
+      document.getElementById("hero-slogan-1").textContent = CONFIG.identity.title;
+      document.getElementById("hero-slogan-2").textContent = CONFIG.identity.subtitle;
+
+      document.getElementById("identity-lead").textContent = CONFIG.identity.lead;
+      document.getElementById("identity-bio-1").textContent = CONFIG.identity.bio1;
+      document.getElementById("identity-bio-2").textContent = CONFIG.identity.bio2;
+
+      const kvList = document.getElementById("identity-kv-list");
+      kvList.innerHTML = CONFIG.identity.manifest
+        .map(item => `<li><span class="kv-key">${escapeHTML(item.key)}</span><span class="kv-val">${escapeHTML(item.val)}</span></li>`)
+        .join("");
+
+      const skillsContainer = document.getElementById("skills-container");
+      skillsContainer.innerHTML = CONFIG.skills
+        .map(
+          s => `
+        <article class="holo-card tilt-card">
+          <div class="skill-card-head">
+            <h3 class="skill-name">${escapeHTML(s.name)}</h3>
+            <span class="skill-pct">${Number(s.level)}%</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-level="${Number(s.level)}"></div>
+          </div>
+          <p class="skill-desc">${escapeHTML(s.desc)}</p>
+          <div class="tag-row">
+            ${s.tags.map(t => `<span class="cyber-tag">${escapeHTML(t)}</span>`).join("")}
+          </div>
+        </article>
+      `
+        )
+        .join("");
+
+      const projectsContainer = document.getElementById("projects-container");
+      projectsContainer.innerHTML = CONFIG.projects
+        .map(
+          p => `
+        <article class="holo-card tilt-card project-card">
+          <div>
+            <div class="project-meta-top">
+              <span>${escapeHTML(p.code)}</span>
+              <span>[${escapeHTML(p.category)}]</span>
+            </div>
+            <h3 class="project-title">${escapeHTML(p.title)}</h3>
+            <p class="project-desc">${escapeHTML(p.desc)}</p>
+            <div class="tag-row">
+              ${p.tags.map(t => `<span class="cyber-tag">${escapeHTML(t)}</span>`).join("")}
+            </div>
+          </div>
+          <div class="project-footer">
+            <span class="project-status-tag">STATE: ARMED // ACTIVE</span>
+            <button type="button" class="cyber-btn sm danger btn-inspect-project" data-id="${escapeHTML(p.id)}">
+              INSPECT PAYLOAD
+            </button>
+          </div>
+        </article>
+      `
+        )
+        .join("");
+
+      projectsContainer.querySelectorAll(".btn-inspect-project").forEach(btn => {
+        btn.addEventListener("click", () => openProjectModal(btn.dataset.id, btn));
+      });
+
+      const socialsContainer = document.getElementById("social-uplinks-container");
+      socialsContainer.innerHTML = CONFIG.socials
+        .map(
+          soc => `
+        <a href="${escapeHTML(soc.url)}" class="uplink-card" target="${soc.url.startsWith("http") ? "_blank" : "_self"}" rel="noopener noreferrer">
+          <div>
+            <span class="uplink-name">${escapeHTML(soc.name)}</span>
+            <span class="uplink-handle">${escapeHTML(soc.handle)}</span>
+          </div>
+          <span class="uplink-arrow">&raquo;</span>
+        </a>
+      `
+        )
+        .join("");
+    }
+
+    function openProjectModal(projectId, triggerEl) {
+      const proj = CONFIG.projects.find(p => p.id === projectId);
+      if (!proj) return;
+      STATE.lastModalTrigger = triggerEl || document.activeElement;
+      audioEngine.playSFX("click");
+
+      document.getElementById("modal-proj-code").textContent = `${proj.code} // ${proj.category}`;
+      document.getElementById("modal-proj-title").textContent = proj.title;
+      document.getElementById("modal-proj-desc").textContent = proj.desc;
+      document.getElementById("modal-proj-arch").innerHTML = `<strong style="color:var(--neon-green);">PAYLOAD ARCHITECTURE:</strong><br/>${escapeHTML(proj.arch)}`;
+      document.getElementById("modal-proj-tags").innerHTML = proj.tags
+        .map(t => `<span class="cyber-tag">${escapeHTML(t)}</span>`)
+        .join("");
+
+      setBackgroundInert(true);
+      DOM.projModal.removeAttribute("inert");
+      DOM.projModal.classList.add("open");
+      DOM.btnCloseModal.focus();
+    }
+
+    function closeProjectModal() {
+      if (!DOM.projModal.classList.contains("open")) return;
+      DOM.projModal.classList.remove("open");
+      DOM.projModal.setAttribute("inert", "");
+      setBackgroundInert(false);
+      if (STATE.lastModalTrigger && typeof STATE.lastModalTrigger.focus === "function") {
+        STATE.lastModalTrigger.focus();
+      }
+    }
+
+    /* ==========================================================================
+       8. INTERACTIVE TERMINAL EMULATOR (SANDBOXED, SAFE TAB COMPLETION)
+       ========================================================================== */
+    const cmdHistory = [];
+    let historyIdx = -1;
+    const AVAILABLE_COMMANDS = [
+      "help", "whoami", "about", "skills", "projects",
+      "matrix", "music", "clear", "date", "contact", "glitch"
+    ];
+
+    function printTerminal(cmdEcho, htmlContent) {
+      const entry = document.createElement("div");
+      entry.className = "term-entry";
+      if (cmdEcho) {
+        entry.innerHTML = `<div class="term-cmd-echo">root@rex-h4x:~# ${escapeHTML(cmdEcho)}</div><div class="term-res">${htmlContent}</div>`;
+      } else {
+        entry.innerHTML = `<div class="term-res">${htmlContent}</div>`;
+      }
+      DOM.termOutput.appendChild(entry);
+      DOM.termOutput.scrollTop = DOM.termOutput.scrollHeight;
+    }
+
+    function executeTerminalCommand(rawInput) {
+      const trimmed = rawInput.trim();
+      if (!trimmed) return;
+
+      cmdHistory.push(trimmed);
+      historyIdx = cmdHistory.length;
+
+      const parts = trimmed.split(/\s+/);
+      const cmd = parts[0].toLowerCase();
+
+      audioEngine.playSFX("click");
+
+      switch (cmd) {
+        case "help":
+          printTerminal(
+            trimmed,
+            `<span class="hl">REX-OS ROOT SHELL // AVAILABLE PAYLOAD COMMANDS:</span>
+  <span class="cy">help</span>      - List all available commands
+  <span class="cy">whoami</span>    - Inspect active breach session [SIMULATION]
+  <span class="cy">about</span>     - Print REX-H4X architectural dossier
+  <span class="cy">skills</span>    - Render full-throttle capability bars
+  <span class="cy">projects</span>  - List weaponized 3D/DSP/Security constructs
+  <span class="cy">matrix</span>    - Toggle digital rain overlay
+  <span class="cy">music</span>     - Start/Stop 128 BPM industrial Web Audio synth
+  <span class="cy">glitch</span>    - Detonate immediate full-screen glitch tear
+  <span class="cy">date</span>      - Display UTC/Local &amp; Unix Epoch timestamp
+  <span class="cy">contact</span>   - Print encrypted darknet uplink channels
+  <span class="cy">clear</span>     - Wipe terminal scrollback buffer`
+          );
+          break;
+
+        case "whoami":
+          printTerminal(
+            trimmed,
+            `<span class="hl">[SIMULATED BREACH SESSION]</span>
+  OPERATOR    : ROOT_GHOST // OVERDRIVE_SESSION
+  TARGET_NODE : REX-H4X-CORE (SANDBOXED)
+  GLITCH_MODE : MAXIMUM OVERDRIVE
+  CIPHER      : CHACHA20-POLY1305 [FICTIONAL TELEMETRY]`
+          );
+          break;
+
+        case "about":
+          printTerminal(
+            trimmed,
+            `<span class="hl">${escapeHTML(CONFIG.identity.handle)} // ${escapeHTML(CONFIG.identity.title)}</span>
+  ${escapeHTML(CONFIG.identity.lead)}`
+          );
+          break;
+
+        case "skills": {
+          const lines = CONFIG.skills
+            .map(s => {
+              const filled = Math.round(s.level / 5);
+              const bar = "█".repeat(filled) + "░".repeat(20 - filled);
+              return `  <span class="cy">${escapeHTML(s.name.padEnd(34, " "))}</span> [${bar}] <span class="hl">${Number(s.level)}%</span>`;
+            })
+            .join("\n");
+          printTerminal(trimmed, `<span class="hl">CAPABILITY MATRIX:</span>\n${lines}`);
+          break;
+        }
+
+        case "projects": {
+          const pLines = CONFIG.projects
+            .map(p => `  <span class="er">${escapeHTML(p.id)}</span> | <span class="hl">${escapeHTML(p.title)}</span> [${escapeHTML(p.category)}]\n         ${escapeHTML(p.desc)}`)
+            .join("\n\n");
+          printTerminal(trimmed, `<span class="hl">DEPLOYED PAYLOADS:</span>\n${pLines}`);
+          break;
+        }
+
+        case "matrix":
+          CONFIG.settings.matrixRain = !CONFIG.settings.matrixRain;
+          DOM.matrixCanvas.style.opacity = CONFIG.settings.matrixRain ? "0.28" : "0";
+          printTerminal(
+            trimmed,
+            `Matrix digital rain overlay: <span class="hl">${CONFIG.settings.matrixRain ? "ACTIVE [MAX]" : "PAUSED"}</span>`
+          );
+          break;
+
+        case "music":
+          audioEngine.togglePlay();
+          printTerminal(
+            trimmed,
+            `Industrial Web Audio synthesizer: <span class="hl">${audioEngine.isPlaying ? "STREAMING AT 128 BPM" : "STOPPED"}</span>`
+          );
+          break;
+
+        case "glitch":
+          triggerGlitchTransition(28, false);
+          printTerminal(trimmed, `<span class="er">DETONATED FULL-VIEWPORT CHROMATIC TEAR.</span>`);
+          break;
+
+        case "date": {
+          const now = new Date();
+          printTerminal(
+            trimmed,
+            `  LOCAL_TIME : <span class="cy">${escapeHTML(now.toString())}</span>
+  ISO_UTC    : <span class="hl">${escapeHTML(now.toISOString())}</span>
+  UNIX_EPOCH : ${Math.floor(now.getTime() / 1000)}`
+          );
+          break;
+        }
+
+        case "contact": {
+          const sLines = CONFIG.socials
+            .map(s => `  <span class="cy">${escapeHTML(s.name.padEnd(20, " "))}</span> : <span class="hl">${escapeHTML(s.handle)}</span>`)
+            .join("\n");
+          printTerminal(trimmed, `<span class="hl">ENCRYPTED UPLINKS:</span>\n${sLines}`);
+          break;
+        }
+
+        case "clear":
+          DOM.termOutput.innerHTML = "";
+          break;
+
+        default:
+          audioEngine.playSFX("error");
+          printTerminal(
+            trimmed,
+            `<span class="er">ERR_INVALID_PAYLOAD:</span> Directive '<span class="cy">${escapeHTML(cmd)}</span>' not found. Type <span class="hl">help</span> for available commands.`
+          );
+      }
+    }
+
+    /* ==========================================================================
+       9. AUDIO VISUALIZER CANVASES & SYSTEM LOG STREAM
+       ========================================================================== */
+    function renderAudioVisualizers(time) {
+      const t = time * 0.004;
+
+      const hCtx = DOM.headerVizCtx;
+      const hw = DOM.headerVizCanvas.width;
+      const hh = DOM.headerVizCanvas.height;
+      hCtx.clearRect(0, 0, hw, hh);
+      const barCount = 7;
+      const stepW = hw / barCount;
+      for (let i = 0; i < barCount; i++) {
+        let ratio = 0.22;
+        if (audioEngine.isPlaying && !audioEngine.isMuted && audioEngine.analyser) {
+          ratio = Math.max(0.18, audioEngine.freqData[i * 2] / 255);
+        } else {
+          ratio = 0.2 + Math.abs(Math.sin(t + i)) * 0.25;
+        }
+        const bh = ratio * hh;
+        hCtx.fillStyle = audioEngine.isPlaying ? (i % 2 === 0 ? "#39FF14" : "#FF003C") : "#FF003C";
+        hCtx.fillRect(i * stepW + 1, hh - bh, stepW - 2, bh);
+      }
+
+      const dCtx = DOM.deckVizCtx;
+      const w = DOM.deckVizCanvas.width;
+      const h = DOM.deckVizCanvas.height;
+      dCtx.fillStyle = "rgba(4, 2, 3, 0.38)";
+      dCtx.fillRect(0, 0, w, h);
+
+      const bins = 48;
+      const barW = w / bins;
+
+      for (let i = 0; i < bins; i++) {
+        let val = 0;
+        if (audioEngine.isPlaying && !audioEngine.isMuted && audioEngine.analyser) {
+          val = audioEngine.freqData[i] / 255;
+        } else {
+          val = 0.08 + Math.abs(Math.sin(t * 0.9 + i * 0.28)) * 0.14;
+        }
+        const barH = val * (h * 0.86);
+        dCtx.fillStyle = i % 3 === 0 ? "rgba(255, 0, 60, 0.8)" : i % 3 === 1 ? "rgba(57, 255, 20, 0.8)" : "rgba(0, 240, 255, 0.7)";
+        dCtx.fillRect(i * barW + 2, h - barH, Math.max(2, barW - 4), barH);
+      }
+
+      dCtx.strokeStyle = "#39FF14";
+      dCtx.lineWidth = 2;
+      dCtx.beginPath();
+      const len = audioEngine.timeData.length;
+      for (let i = 0; i < len; i++) {
+        const x = (i / (len - 1)) * w;
+        let v = 0.5;
+        if (audioEngine.isPlaying && !audioEngine.isMuted) {
+          v = audioEngine.timeData[i] / 255.0;
+        } else {
+          v = 0.5 + Math.sin(t * 2.2 + i * 0.18) * 0.06;
+        }
+        const y = v * h;
+        if (i === 0) dCtx.moveTo(x, y);
+        else dCtx.lineTo(x, y);
+      }
+      dCtx.stroke();
+    }
+
+    const SAMPLE_LOGS = [
+      { sev: "BREACH", msg: "SHD_CORE: Overdrive vertex displacement locked at full amplitude" },
+      { sev: "OK", msg: "DSP_CLOCK: Lookahead audio scheduler jitter < 0.4ms [128 BPM]" },
+      { sev: "WARN", msg: "FIREWALL: Perimeter node 0x9F04 shattered; root tunnel active" },
+      { sev: "GLITCH", msg: "CRT_SYNC: Horizontal tear buffer injected across viewport" },
+      { sev: "OK", msg: "MATRIX_FX: Hexadecimal katakana glyph rain streaming on layer 2" },
+      { sev: "BREACH", msg: "MEM_GUARD: Ring-buffer telemetry verified zero-leak" }
+    ];
+
+    function appendSystemLog(customMsg) {
+      if (STATE.logPaused && !customMsg) return;
+      const item = customMsg || SAMPLE_LOGS[(Math.random() * SAMPLE_LOGS.length) | 0];
+      const now = new Date().toISOString().slice(11, 23);
+      const row = document.createElement("div");
+      row.className = "syslog-row";
+      const color =
+        item.sev === "WARN"
+          ? "var(--electric-cyan)"
+          : item.sev === "GLITCH" || item.sev === "BREACH"
+          ? "var(--error-red)"
+          : "var(--neon-green)";
+      row.innerHTML = `<span style="color:var(--text-muted);">[${now}]</span><strong style="color:${color};">[${escapeHTML(item.sev)}]</strong><span>${escapeHTML(item.msg)}</span>`;
+      DOM.sysLogStream.appendChild(row);
+      while (DOM.sysLogStream.children.length > 35) {
+        DOM.sysLogStream.removeChild(DOM.sysLogStream.firstChild);
+      }
+      DOM.sysLogStream.scrollTop = DOM.sysLogStream.scrollHeight;
+    }
+
+    /* ==========================================================================
+       10. BOOT SEQUENCE (AUTO-SKIPS AFTER 5 SECONDS) & FOCUS MANAGEMENT
+       ========================================================================== */
+    let bootInterval = null;
+    let bootAutoSkipTimer = null;
+    let bootCountdownInterval = null;
+
+    function clearBootTimers() {
+      if (bootInterval) {
+        clearInterval(bootInterval);
+        bootInterval = null;
+      }
+      if (bootAutoSkipTimer) {
+        clearTimeout(bootAutoSkipTimer);
+        bootAutoSkipTimer = null;
+      }
+      if (bootCountdownInterval) {
+        clearInterval(bootCountdownInterval);
+        bootCountdownInterval = null;
+      }
+    }
+
+    function runBootSequence() {
+      clearBootTimers();
+      STATE.lastModalTrigger = null; // Fix #18 reset stale trigger
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" }); // Fix #9 scroll to top
+
+      const { bootScreen, bootLog, bootBar, bootTrack, bootPct, bootStatus, bootAnnounce, bootCountdown } = DOM;
+
+      setBackgroundInert(true); // Fix #5 inert background while boot modal is open
+      bootScreen.removeAttribute("inert");
+      bootScreen.classList.remove("hidden");
+      bootLog.innerHTML = "";
+      bootBar.style.width = "0%";
+      bootTrack.setAttribute("aria-valuenow", "0");
+      bootPct.textContent = "0%";
+      bootStatus.textContent = "INJECTING PAYLOAD & SHADER OVERDRIVE...";
+      if (bootAnnounce) bootAnnounce.textContent = "";
+      STATE.booted = false;
+
+      document.getElementById("btn-boot-audio").focus();
+
+      // 5-second Auto-Skip Countdown
+      let remainingSec = 5;
+      if (bootCountdown) bootCountdown.textContent = `AUTO-BREACH IN ${remainingSec}s...`;
+      bootCountdownInterval = setInterval(() => {
+        remainingSec = Math.max(0, remainingSec - 1);
+        if (bootCountdown) {
+          bootCountdown.textContent = remainingSec > 0 ? `AUTO-BREACH IN ${remainingSec}s...` : "BREACHING NOW...";
+        }
+      }, 1000);
+
+      bootAutoSkipTimer = setTimeout(() => {
+        if (!STATE.booted) {
+          finishBoot(false);
+        }
+      }, 5000);
+
+      let step = 0;
+      const total = CONFIG.bootMessages.length;
+
+      bootInterval = setInterval(() => {
+        if (step < total) {
+          const m = CONFIG.bootMessages[step];
+          const div = document.createElement("div");
+          div.className = "boot-line";
+          div.innerHTML = `<span class="ts">[${escapeHTML(m.ts)}]</span><span class="${escapeHTML(m.type)}">${escapeHTML(m.text)}</span>`;
+          bootLog.appendChild(div);
+          bootLog.scrollTop = bootLog.scrollHeight;
+
+          step++;
+          const pct = Math.round((step / total) * 100);
+          bootBar.style.width = `${pct}%`;
+          bootTrack.setAttribute("aria-valuenow", String(pct));
+          bootPct.textContent = `${pct}%`;
+        } else {
+          clearInterval(bootInterval);
+          bootInterval = null;
+          bootStatus.textContent = "BREACH READY // AUTO-ENGAGING INTERFACE";
+          if (bootAnnounce) bootAnnounce.textContent = "System boot complete. Entering interface.";
+        }
+      }, 480);
+    }
+
+    function finishBoot(withAudio = false) {
+      if (STATE.booted) return;
+      clearBootTimers();
+      STATE.booted = true;
+
+      // Fix #5: Un-inert main/header/footer BEFORE focusing #hero-main-title
+      DOM.bootScreen.classList.add("hidden");
+      DOM.bootScreen.setAttribute("inert", "");
+      setBackgroundInert(false);
+
+      if (withAudio) {
+        audioEngine.startMusic();
+      }
+      triggerGlitchTransition(26, !withAudio);
+      scrambleText(DOM.heroMainTitle);
+      DOM.heroMainTitle.focus();
+    }
+
+    /* ==========================================================================
+       11. HOVER SFX THROTTLING & 3D TILT CARDS
+       ========================================================================== */
+    let lastHoverSfxTime = 0;
+
+    function attachTiltAndHoverListeners() {
+      document.querySelectorAll(".tilt-card").forEach(card => {
+        if (card.dataset.tiltBound) return;
+        card.dataset.tiltBound = "true";
+
+        card.addEventListener("mousemove", e => {
+          if (isMobile || prefersReducedMotion) return;
+          const rect = card.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          card.style.transform = `perspective(900px) rotateX(${(-y * 8).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg) translateY(-3px)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "";
+        });
+      });
+
+      document.querySelectorAll(".scramble-hover").forEach(el => {
+        if (el.dataset.scrambleBound) return;
+        el.dataset.scrambleBound = "true";
+        el.addEventListener("mouseenter", () => scrambleText(el));
+      });
+
+      document.querySelectorAll("a, button, .chip-btn, input").forEach(el => {
+        if (el.dataset.hoverBound) return;
+        el.dataset.hoverBound = "true";
+        el.addEventListener("mouseenter", () => {
+          document.body.classList.add("cursor-hover");
+          const now = performance.now();
+          if (now - lastHoverSfxTime >= 45) {
+            lastHoverSfxTime = now;
+            audioEngine.playSFX("hover");
+          }
+        });
+        el.addEventListener("mouseleave", () => {
+          document.body.classList.remove("cursor-hover");
+        });
+      });
+    }
+
+    /* ==========================================================================
+       12. MASTER INITIALIZATION (ALL DOM QUERIES SAFELY INSIDE DOMContentLoaded)
+       ========================================================================== */
+    window.addEventListener("DOMContentLoaded", () => {
+      DOM.headerEl = document.getElementById("site-header");
+      DOM.mainEl = document.getElementById("main-content");
+      DOM.footerEl = document.getElementById("site-footer");
+      DOM.bootScreen = document.getElementById("boot-screen");
+      DOM.bootLog = document.getElementById("boot-log");
+      DOM.bootBar = document.getElementById("boot-progress-bar");
+      DOM.bootTrack = document.getElementById("boot-progress-track");
+      DOM.bootPct = document.getElementById("boot-pct");
+      DOM.bootStatus = document.getElementById("boot-status-text");
+      DOM.bootAnnounce = document.getElementById("boot-sr-announce");
+      DOM.bootCountdown = document.getElementById("boot-auto-countdown");
+      DOM.heroMainTitle = document.getElementById("hero-main-title");
+      DOM.rendererName = document.getElementById("hud-renderer-name");
+      DOM.engineIndicator = document.getElementById("hud-engine-indicator");
+      DOM.fpsEl = document.getElementById("hud-fps");
+      DOM.hudCoords = document.getElementById("hud-coords");
+      DOM.hudState = document.getElementById("hud-audio-state");
+      DOM.pill = document.getElementById("header-audio-btn");
+      DOM.label = document.getElementById("header-audio-label");
+      DOM.heroBtn = document.getElementById("btn-hero-audio");
+      DOM.deckStatus = document.getElementById("synth-deck-status");
+      DOM.muteBtn = document.getElementById("btn-deck-mute");
+      DOM.termOutput = document.getElementById("terminal-output");
+      DOM.termInput = document.getElementById("terminal-input");
+      DOM.termForm = document.getElementById("terminal-form");
+      DOM.sysLogStream = document.getElementById("sys-log-stream");
+      DOM.projModal = document.getElementById("project-modal");
+      DOM.btnCloseModal = document.getElementById("btn-close-modal");
+      DOM.disconnectOverlay = document.getElementById("disconnect-overlay");
+      DOM.cursorDot = document.getElementById("cursor-dot");
+      DOM.cursorRing = document.getElementById("cursor-ring");
+
+      DOM.noiseCanvas = document.getElementById("noise-canvas");
+      DOM.noiseCtx = DOM.noiseCanvas.getContext("2d");
+      DOM.sliceCanvas = document.getElementById("glitch-slice-canvas");
+      DOM.sliceCtx = DOM.sliceCanvas.getContext("2d");
+      DOM.matrixCanvas = document.getElementById("matrix-canvas");
+      DOM.matrixCtx = DOM.matrixCanvas.getContext("2d");
+      DOM.cursorCanvas = document.getElementById("cursor-canvas");
+      DOM.cursorCtx = DOM.cursorCanvas.getContext("2d");
+      DOM.headerVizCanvas = document.getElementById("header-viz-canvas");
+      DOM.headerVizCtx = DOM.headerVizCanvas.getContext("2d");
+      DOM.deckVizCanvas = document.getElementById("audio-spectrum-canvas");
+      DOM.deckVizCtx = DOM.deckVizCanvas.getContext("2d");
+
+      // Fix #7: Re-apply data-glitch attribute whenever prefers-reduced-motion changes
+      const updateDeviceFlags = () => {
+        prefersReducedMotion = mqReducedMotion.matches;
+        isMobile = mqCoarsePointer.matches || mqNarrowScreen.matches;
+        if (prefersReducedMotion) {
+          document.documentElement.setAttribute("data-glitch", "off");
+        } else if (CONFIG.settings.glitchMode !== "off") {
+          document.documentElement.setAttribute("data-glitch", CONFIG.settings.glitchMode);
+        }
+      };
+      updateDeviceFlags();
+      mqReducedMotion.addEventListener("change", updateDeviceFlags);
+      mqCoarsePointer.addEventListener("change", updateDeviceFlags);
+      mqNarrowScreen.addEventListener("change", updateDeviceFlags);
+
+      renderConfigContent();
+      resizeOverlayCanvases();
+      runBootSequence();
+
+      // Seed Terminal Welcome Banner
+      printTerminal(
+        null,
+        `<span class="er">====================================================================
+  REX-H4X // ROOT BREACH TERMINAL v9.66 [OVERDRIVE SANDBOX]
+====================================================================</span>
+All visual glitch, Matrix rain &amp; 128 BPM synth subsystems set to <span class="hl">MAXIMUM</span>.
+Type <span class="cy">help</span> or click any payload chip above.`
+      );
+
+      for (let i = 0; i < 7; i++) appendSystemLog();
+      setInterval(() => {
+        if (!STATE.pageHidden) appendSystemLog();
+      }, 2100);
+
+      const hero3D = new Hero3DEngine(document.getElementById("hero-canvas"));
+
+      const heroObserver = new IntersectionObserver(
+        ([entry]) => {
+          STATE.heroVisible = entry.isIntersecting;
+        },
+        { threshold: 0.01 }
+      );
+      heroObserver.observe(document.getElementById("hero"));
+
+      window.addEventListener(
+        "mousemove",
+        e => {
+          STATE.mouseX = e.clientX;
+          STATE.mouseY = e.clientY;
+          STATE.normX = (e.clientX / window.innerWidth) * 2 - 1;
+          STATE.normY = (e.clientY / window.innerHeight) * 2 - 1;
+
+          if (!isMobile) {
+            DOM.cursorDot.style.left = `${e.clientX}px`;
+            DOM.cursorDot.style.top = `${e.clientY}px`;
+            DOM.cursorRing.style.left = `${e.clientX}px`;
+            DOM.cursorRing.style.top = `${e.clientY}px`;
+
+            if (CONFIG.settings.particleTrail && Math.random() > 0.2) {
+              trailParticles.push({
+                x: e.clientX,
+                y: e.clientY,
+                vx: (Math.random() - 0.5) * 2.4,
+                vy: (Math.random() - 0.5) * 2.4 + 0.5,
+                size: Math.random() * 3.5 + 2,
+                life: 1.0,
+                color: Math.random() > 0.45 ? "#FF003C" : "#39FF14"
+              });
+            }
+          }
+
+          if (DOM.hudCoords && STATE.heroVisible) {
+            DOM.hudCoords.textContent = `X:${STATE.normX.toFixed(2)} Y:${STATE.normY.toFixed(2)}`;
+          }
+        },
+        { passive: true }
+      );
+
+      // Boot Screen Button & Focus Trap
+      document.getElementById("btn-boot-audio").addEventListener("click", () => finishBoot(true));
+      DOM.bootScreen.addEventListener("keydown", e => trapDialogFocus(DOM.bootScreen, e));
+
+      setInterval(() => {
+        const clk = document.getElementById("boot-clock");
+        if (clk && !STATE.booted) clk.textContent = `SYS_TIME: ${new Date().toISOString().slice(11, 19)} UTC`;
+      }, 1000);
+
+      // Hero & Header Controls
+      document.getElementById("btn-enter-system").addEventListener("click", () => triggerGlitchTransition(22, false));
+      document.getElementById("btn-access-terminal").addEventListener("click", () => {
+        triggerGlitchTransition(18, false);
+        setTimeout(() => DOM.termInput.focus(), 400);
+      });
+      DOM.pill.addEventListener("click", () => audioEngine.togglePlay());
+      DOM.heroBtn.addEventListener("click", () => audioEngine.togglePlay());
+      document.getElementById("btn-detonate-glitch").addEventListener("click", () => hero3D.triggerPulse());
+      document.getElementById("btn-3d-pulse").addEventListener("click", () => hero3D.triggerPulse());
+      document.getElementById("btn-hero-glitch").addEventListener("click", () => triggerGlitchTransition(30, false));
+      document.getElementById("btn-replay-boot").addEventListener("click", () => runBootSequence());
+
+      // Terminal Form & Safe Tab Completion
+      DOM.termForm.addEventListener("submit", e => {
+        e.preventDefault();
+        executeTerminalCommand(DOM.termInput.value);
+        DOM.termInput.value = "";
+      });
+
+      DOM.termInput.addEventListener("keydown", e => {
+        if (e.key.length === 1) audioEngine.playSFX("key");
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          if (historyIdx > 0) {
+            historyIdx--;
+            DOM.termInput.value = cmdHistory[historyIdx];
+          }
+        } else if (e.key === "ArrowDown") {
+          e.preventDefault();
+          if (historyIdx < cmdHistory.length - 1) {
+            historyIdx++;
+            DOM.termInput.value = cmdHistory[historyIdx];
+          } else {
+            historyIdx = cmdHistory.length;
+            DOM.termInput.value = "";
+          }
+        } else if (e.key === "Tab") {
+          const val = DOM.termInput.value.trim().toLowerCase();
+          const match = val && AVAILABLE_COMMANDS.find(c => c.startsWith(val));
+          if (match) {
+            e.preventDefault();
+            DOM.termInput.value = match;
+          }
+        }
+      });
+
+      document.querySelectorAll(".chip-btn").forEach(chip => {
+        chip.addEventListener("click", () => {
+          executeTerminalCommand(chip.dataset.cmd);
+          DOM.termInput.focus();
+        });
+      });
+
+      // Synth Deck Controls (Fix #8: BASS DROP / TEAR triggers real sub-bass drop + 3D shockwave)
+      document.getElementById("btn-deck-play").addEventListener("click", () => audioEngine.togglePlay());
+      DOM.muteBtn.addEventListener("click", () => audioEngine.toggleMute());
+      document.getElementById("btn-deck-glitch-hit").addEventListener("click", () => {
+        audioEngine.triggerBassDrop();
+        hero3D.triggerPulse();
+      });
+
+      document.getElementById("slider-volume").addEventListener("input", e => {
+        const v = Number(e.target.value);
+        document.getElementById("val-volume").textContent = `${v}%`;
+        audioEngine.setVolume(v / 100);
+      });
+      document.getElementById("slider-cutoff").addEventListener("input", e => {
+        const hz = Number(e.target.value);
+        document.getElementById("val-cutoff").textContent = `${hz} Hz`;
+        audioEngine.setCutoff(hz);
+      });
+      document.getElementById("slider-tempo").addEventListener("input", e => {
+        const bpm = Number(e.target.value);
+        document.getElementById("val-tempo").textContent = `${bpm} BPM`;
+        audioEngine.setTempo(bpm);
+        updateAudioUI();
+      });
+
+      // System Logs Controls
+      document.getElementById("btn-log-pause").addEventListener("click", e => {
+        STATE.logPaused = !STATE.logPaused;
+        e.currentTarget.textContent = STATE.logPaused ? "RESUME" : "PAUSE";
+      });
+      document.getElementById("btn-log-inject").addEventListener("click", () => {
+        triggerGlitchTransition(14, false);
+        for (let i = 0; i < 4; i++) {
+          appendSystemLog({
+            sev: "BREACH",
+            msg: `FLOOD_PKT: 0x${Math.floor(Math.random() * 16777215).toString(16).toUpperCase()} injected into ring0`
+          });
+        }
+      });
+
+      // Mobile Navigation with inert & aria-expanded
+      const navList = document.getElementById("hud-nav-list");
+      const mobileMenuBtn = document.getElementById("mobile-menu-toggle");
+      const syncMobileNavA11y = () => {
+        if (window.innerWidth <= 960) {
+          const isOpen = navList.classList.contains("open");
+          navList.toggleAttribute("inert", !isOpen);
+          mobileMenuBtn.setAttribute("aria-expanded", String(isOpen));
+        } else {
+          navList.removeAttribute("inert");
+          mobileMenuBtn.setAttribute("aria-expanded", "false");
+        }
+      };
+      syncMobileNavA11y();
+
+      mobileMenuBtn.addEventListener("click", () => {
+        navList.classList.toggle("open");
+        syncMobileNavA11y();
+      });
+      navList.querySelectorAll("a").forEach(a => {
+        a.addEventListener("click", () => {
+          navList.classList.remove("open");
+          syncMobileNavA11y();
+        });
+      });
+
+      // Modal Close & Focus Trap (Fix #6)
+      DOM.btnCloseModal.addEventListener("click", closeProjectModal);
+      DOM.projModal.addEventListener("click", e => {
+        if (e.target === DOM.projModal) closeProjectModal();
+      });
+      DOM.projModal.addEventListener("keydown", e => trapDialogFocus(DOM.projModal, e));
+
+      // Final Transmission Kill-Switch & Reconnect with full inert + focus trap (Fixes #5 & #6)
+      document.getElementById("btn-sever-uplink").addEventListener("click", () => {
+        STATE.lastModalTrigger = document.activeElement;
+        triggerGlitchTransition(35, false);
+        if (audioEngine.isPlaying) audioEngine.stopMusic();
+        setBackgroundInert(true);
+        DOM.disconnectOverlay.removeAttribute("inert");
+        DOM.disconnectOverlay.classList.add("active");
+        document.getElementById("btn-reconnect").focus();
+      });
+      document.getElementById("btn-reconnect").addEventListener("click", () => {
+        DOM.disconnectOverlay.classList.remove("active");
+        DOM.disconnectOverlay.setAttribute("inert", "");
+        setBackgroundInert(false);
+        triggerGlitchTransition(25, false);
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+        DOM.heroMainTitle.focus();
+      });
+      DOM.disconnectOverlay.addEventListener("keydown", e => trapDialogFocus(DOM.disconnectOverlay, e));
+
+      window.addEventListener("keydown", e => {
+        if (e.key === "Escape") {
+          closeProjectModal();
+        }
+      });
+
+      // IntersectionObserver for Skill Bars & Section Title Scrambling
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              if (entry.target.classList.contains("skill-bar-fill")) {
+                entry.target.style.width = `${entry.target.dataset.level}%`;
+              }
+              if (entry.target.classList.contains("scramble-on-view")) {
+                scrambleText(entry.target);
+              }
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+
+      document.querySelectorAll(".skill-bar-fill, .scramble-on-view").forEach(el => observer.observe(el));
+      attachTiltAndHoverListeners();
+
+      window.addEventListener("resize", () => {
+        resizeOverlayCanvases();
+        hero3D.onResize();
+        syncMobileNavA11y();
+      });
+      document.addEventListener("visibilitychange", () => {
+        STATE.pageHidden = document.hidden;
+      });
+
+      // Master Animation Loop
+      let frameTick = 0;
+      function animate(now) {
+        if (!STATE.pageHidden) {
+          if (STATE.glitchBurstTimer > 0) STATE.glitchBurstTimer--;
+          STATE.corePulseBoost *= 0.91;
+
+          if (STATE.heroVisible) {
+            hero3D.render(now);
+          }
+          renderAudioVisualizers(now);
+          renderCursorTrail();
+
+          if (frameTick++ % 3 === 0) {
+            renderCRTNoise();
+            renderMatrixRain();
+          }
+
+          // Fix #3: Silent visual-only autonomous glitch bursts in MAX mode
+          if (!prefersReducedMotion && CONFIG.settings.glitchMode === "high" && Math.random() < 0.014) {
+            triggerGlitchTransition(12, true);
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+    });
+  </script>
+</body>
+</html>
